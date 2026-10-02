@@ -1,12 +1,13 @@
-# applied_bigdata
-Applied Big Data (Master's Degree in Artificial Intelligence and Big Data | LinkiaFP)
+# bigdata_sys
+Big Data systems (Master's Degree in Artificial Intelligence and Big Data | LinkiaFP)
 
 ## Project folder structure
 ```
-applied_bigdata/
+bigdata_sys/
 ├── .venv/ [.gitignore]
 ├── handover/
 |   ├── doing/
+|   ├── done/
 |   └── temp/
 |
 ├── scripts/
@@ -14,53 +15,22 @@ applied_bigdata/
 |
 ├── src/
 |   ├── activities/
-|   |   ├── lesson_01/
-|   |   |   ├── comparison/
+|   |   ├── RA1/
+|   |   |   ├── lesson_01/
+|   |   |   |   ├── dataset/
 |   |   |   |   ├── notebooks/
 |   |   |   |   └── scripts/
-|   |   |   |
-|   |   |   ├── dataset/ [.gitignore]
-|   |   |   |   └── ml-20m/
-|   |   |   |
-|   |   |   └── mongoplayground/
-|   |   |
 |   |   ├── lesson_02/
-|   |   |   ├── comparison/
-|   |   |   |   ├── notebooks/
-|   |   |   |   └── scripts/
-|   |   |   |
-|   |   |   └── dataset/
-|   |   |
-|   |   └── lesson_03/
-|   |   |   ├── dataset/ [.gitignore]
-|   |   |   ├── notebooks/
-|   |   |   ├── scripts/
-|   |   |   └── README.md
-|   |   |
-|   |   └── lesson_04/
-|   |   |   └── README.md
-|   |   |
-|   |   └── lesson_05/
-|   |   |   ├── dataset/ [.gitignore]
-|   |   |   ├── notebooks/
-|   |   |   ├── scripts/
-|   |   |   └── README.md
 |   |   |
 |   |   ├── reports/ [.gitignore]
 |   |   └── temp/
 |   | 
 |   ├── config/
 |   └── lessons/
-|       ├── 20260413-02
-|       ├── 20260508-06
-|       └── 20260511-07
-|           ├── checksum
-|           ├── data-profiling
-|           └── houses-models
 |
 ├── .gitignore
 ├── LICENSE
-└── README.md
+└── README.md [this MD file]
 ```
 
 ## Datasets
