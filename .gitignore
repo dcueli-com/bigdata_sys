@@ -208,6 +208,6 @@ __marimo__/
 
 # Custom
 ## Datasets
-src/activities/**/dataset/
+src/activities/**/data/
 ## Reports
 src/activities/reports/
