@@ -1,87 +1,121 @@
-from pyspark.sql import SparkSession
-
-import pandas as pd
-import polars as pl
+# REQUIRES
+# ========
 import time
+import spacy
 
-datasetPath = '../dataset/ml-20m/ratings.csv'
+# from spacy import displacy, Language
+from spacy import displacy
+from pathlib import Path
 
-# ====================================================================================================
-# BEGIN :: Pandas
-# ----------------------------------------------------------------------------------------------------
-timeInit  = time.time()
-df_target = pd.read_csv(datasetPath)
-timeEnd   = time.time()
+# PATHS
+# =====
+# CURRENT FILE PATH
+CURR_EXECERCISES_FILES_PATH = Path(__file__).resolve()
+DATA_DIR = CURR_EXECERCISES_FILES_PATH.parent.parent / "data"
 
-print(f"+ =======================================================================")
-print(f"+ ")
-print(f"+ Loaded <ratings.csv> dataset")
-print(f"+ Time to load the dataset with Pandas: {timeEnd - timeInit:.4f} seconds")
-print(f"+ ")
-print(f"+ =======================================================================")
+# HELPERS FUNCTIONS
+# =================
+def LineBreak(pHowMany: int = 1):
+  for i in range(0, pHowMany):
+    print(f"+ ")
 
-print(df_target.head())
-
-# ----------------------------------------------------------------------------------------------------
-# END :: Pandas
-# ====================================================================================================
-# BEGIN :: Polars
-# ----------------------------------------------------------------------------------------------------
-
-timeInit = time.time()
-df_target = pl.read_csv(datasetPath)
-timeEnd = time.time()
-
-print(f"+ =======================================================================")
-print(f"+ ")
-print(f"+ Loaded <ratings.csv> dataset")
-print(f"+ Time to load the dataset with Polars: {timeEnd - timeInit:.4f} seconds")
-print(f"+ ")
-print(f"+ =======================================================================")
-
-print(df_target.head())
-
-# ----------------------------------------------------------------------------------------------------
-# END :: Polars
-# ====================================================================================================
-# BEGIN :: PySpark
-# ----------------------------------------------------------------------------------------------------
-
-# Spark no hace nada hasta que lee el archivo, el dataset en este caso está en 
-# 'data/ratings.csv'. Cuando escribimos df = spark.read.csv(...), la sesión 
-# de Spark <spark> no lee el archivo de realmente, sino que anota el plan 
-# de lo que tiene que hacer.
+def SectionBreak():
+  LineBreak(1)
+  print(f"+ ---------------------------------------------------------")
+  LineBreak(1)
+  
+# CUSTOM FUNCTIONS
+# ================
 # 
-# Es decir, cuando pedimos un resultado con un 'show()' o un 'count()', la 
-# sesión revisa lo anotado y optimiza el camino más rápido. 
+# ProcessTextWithModel
+# --------------------
+# Process a spaCy Doc object to extract and display Named Entities (NER),
+# highlighting proper names (PER/PERSON) and displaying complete entity metadata.
 # 
-# Creamos la sesión de Spark
-spark = SparkSession.builder \
-  .appName("ComprLibs") \
-  .master("local[*]") \
-  .config("spark.driver.memory", "64g") \
-  .getOrCreate()
+# @param spacy.tokens.doc.Doc $pDoc Processed spaCy document instance.
+# @param string $pLang Language model label for display header output.
+# @return void
+def ProcessTextWithModel(pDoc: spacy.language, pLang: str = "Not defined"):
+  tInit = time.time()
+  
+  # Extract and fiter just persons/Names (PER label) from the text
+  print(f"+ =========================================================")
+  print(f"+ LANGUAGE MODEL: -{pLang}-")
+  print(f"+ Persons proper names extracted from the text (PER label):")
+  print(f"+ ---------------------------------------------------------")
+  LineBreak(1)
 
-# Cargamos el dataset (lazyload)
-df_target = spark.read.csv(
-  datasetPath, 
-  header=True, 
-  inferSchema=True
-)
+  for entity in pDoc.ents:
+    if entity.label_ in ('PER', 'PERSON'):
+      print(f"Proper name: {entity.text}")
+    # if entity.label_ == "PER":
+    #   print(f"Proper name: {entity.text}")
 
-# Obligamos a Spark a leer el archivo contando las filas
-df_target.count()
-timeEnd = time.time()
+  LineBreak(1)
+  print(f"+ All detected entities (for comparison):")
+  print(f"+ ---------------------------------------")
+  for entity in pDoc.ents:
+    print(f"Text: {entity.text:<25} | Type/Label: {entity.label_}")
 
-print(f"+ =======================================================================")
-print(f"+ ")
-print(f"+ Loaded <ratings.csv> dataset")
-print(f"+ Time to load the dataset with PySpark: {timeEnd - timeInit:.4f} seconds")
-print(f"+ ")
-print(f"+ =======================================================================")
+  tEnd = time.time()
+  print(f"+ Time to load: {tEnd - tInit:.4f} seconds")
+  print(f"+ =========================================================")
 
-df_target.show(5)
+# (n)atural (l)anguage (p)rocessing (NLP) models for different languages
+# Spanish
+nlp_ES = spacy.load("es_core_news_sm")
+# Latin
+nlp_LA = spacy.load("la_core_web_md")
 
-# ----------------------------------------------------------------------------------------------------
-# END :: PySpark
-# ====================================================================================================
+# IMPORT SOURCE TEXT
+# ==================
+# Read file with text
+rnd_text_path = DATA_DIR / "chiquito-ipsum.txt"
+# Text to analyze
+text = ""
+
+with open(rnd_text_path, "r", encoding="utf-8") as f:
+  text = f.read()
+  
+# PROCESSING TEXT
+# ===============
+doc_ES = nlp_ES(text)
+doc_LA = nlp_LA(text)
+
+# Process text with model
+ProcessTextWithModel(doc_ES, "Spanish")
+# Process text with model
+ProcessTextWithModel(doc_LA, "Latin")
+
+# PROCESSING TEXT IN HYBRID or INTERSECTION (ESPAÑOL + LATIN)
+# ===========================================================
+tInit = time.time()
+
+# Extract person entities
+perEntitiesES = set([entity.text for entity in doc_ES.ents if entity.label_ == "PER"])
+perEntitiesLA = set([entity.text for entity in doc_LA.ents if entity.label_ == "PERSON"])
+# Intersection of both sets to find confirmed person names detected by BOTH models (Consensus)
+consensusPersons = perEntitiesES.intersection(perEntitiesLA)
+
+# DISPLAY COMPARATIVE CONSENSUS RESULTS
+# =====================================
+print(f"+ =================================================")
+print(f"+ HYBRID or INTERSECTION (Spanish  &  Latin MODELS)")
+print(f"+ Confirmed proper names (Detected by BOTH models):")
+print(f"+ -------------------------------------------------")
+LineBreak(1)
+
+for name in consensusPersons:
+  print(f"Confirmed Name: {name}")
+
+LineBreak(1)
+print(f"+ Summary metrics:")
+print(f"+ ---------------------------------------------------------")
+print(f"Spanish model candidate count : {len(perEntitiesES)}")
+print(f"Latin model candidate count   : {len(perEntitiesLA)}")
+print(f"Consensus candidates count    : {len(consensusPersons)}")
+
+tEnd = time.time()
+LineBreak(1)
+print(f"+ Time to evaluate consensus: {tEnd - tInit:.4f} seconds")
+print(f"+ =========================================================")

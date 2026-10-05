@@ -17,7 +17,7 @@ bigdata_sys/
 |   ├── activities/
 |   |   ├── RA1/
 |   |   |   ├── lesson_01/
-|   |   |   |   ├── dataset/
+|   |   |   |   ├── data/
 |   |   |   |   ├── notebooks/
 |   |   |   |   └── scripts/
 |   |   ├── lesson_02/
@@ -33,15 +33,11 @@ bigdata_sys/
 └── README.md [this MD file]
 ```
 
-## Datasets
-This proyect use the following datasets
+## Data
+This proyect use the following data
 ### RA1 > Activities > Mandatory
-1. MovieLens 20M, download from <a href="grouplens.org">grouplens.org</a>:  <a href="https://grouplens.org/datasets/movielens/20m/">https://grouplens.org/datasets/movielens/20m/</a><br>
-2. Unzip into <code>activities/lesson_01/dataset/</code>
-
-### RA3 > Activities > Mandatory
-1. Asteroid Dataset (<a href="https://ssd.jpl.nasa.gov/sbdb_query.cgi"><i>NASA JPL Small Body Search Engine</i></a>), download from <a href="kaggle.com">kaggle.com</a>:  <a href="https://gitlab.com/mirsakhawathossain/pha-ml/-/raw/master/Dataset/dataset.csv">https://gitlab.com/mirsakhawathossain/pha-ml/-/raw/master/Dataset/dataset.csv</a>
-2. Unzip into <code>activities/lesson_03/dataset/</code>
+Random text on <a href="./src/activities/RA1/lesson_01/data/chiquito-ipsum.txt">Chiquito Ipsum</a><br>
+Random text on <a href=".src/activities/RA1/lesson_01/data/la_core_web_md-3.9.5-py3-none-any.whl">Latin model</a><br>
 
 ## Technical requirements
 ### Python version
@@ -51,3 +47,13 @@ This is not a requirement but this project has been exectued opn Python v3.13, s
 pip install setuptools
 - ydata-profiling, pygwalker and pandas (pandas library is necessary for the proper execution of the ydata-profiling)
 pip install ydata-profiling pygwalker pandas
+### Dependencies
+- pip install ipykernel spacy
+- python -m spacy download es_core_news_sm
+#### la_core_web_md-3.9.5-py3-none-any.whl
+- pip install src/activities/RA1/lesson_01/data/
+#### Download chiquito-ipsum.txt
+Download chiquito-ipsum.txt text file from for the proper scripts execution 
+
+
+
