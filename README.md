@@ -50,10 +50,13 @@ pip install ydata-profiling pygwalker pandas
 ### Dependencies
 - pip install ipykernel spacy
 - python -m spacy download es_core_news_sm
-#### la_core_web_md-3.9.5-py3-none-any.whl
-- pip install src/activities/RA1/lesson_01/data/
-#### Download chiquito-ipsum.txt
-Download chiquito-ipsum.txt text file from for the proper scripts execution 
+#### Download la_core_web_md-3.9.5-py3-none-any.whl into [<i><u>src/activities/RA1/lesson_01/data</u></i>] folder
+Download <i>la_core_web_md-3.9.5-py3-none-any.whl</i> text file from <a href="https://huggingface.co/latincy/la_core_web_md/blob/main/la_core_web_md-3.9.5-py3-none-any.whl">https://huggingface.co/latincy/la_core_web_md/blob/main/la_core_web_md-3.9.5-py3-none-any.whl</a> for the proper scripts execution 
+
+And finally:
+- pip install src/activities/RA1/lesson_01/data/la_core_web_md-3.9.5-py3-none-any.whl
+#### Download chiquito-ipsum.txt into [<i><u>src/activities/RA1/lesson_01/data</u></i>] folder
+Download <i>chiquito-ipsum.txt text file</i> from <a href="https://github.com/dcueli-com/bigdata_sys/blob/develop/src/activities/RA1/lesson_01/data/chiquito-ipsum.txt">https://github.com/dcueli-com/bigdata_sys/blob/develop/src/activities/RA1/lesson_01/data/chiquito-ipsum.txt</a> for the proper scripts execution 
 
 
 
