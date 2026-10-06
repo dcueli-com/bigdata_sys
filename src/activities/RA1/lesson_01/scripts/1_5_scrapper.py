@@ -13,41 +13,24 @@
 
 # REQUIRES
 # ========
+# System
+# ------
 import time
 import requests
-from pathlib import Path
 
+# Libraries
+# ---------
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet, Tag
 
-# HELPERS FUNCTIONS
-# =================
-def LineBreak(pHowMany: int = 1):
-  for i in range(0, pHowMany):
-    print(f"+ ")
+# Defines
+# -------
+from src.config.globals import *
 
-def SectionBreak():
-  LineBreak(1)
-  print(f"+ ---------------------------------------------------------")
-  LineBreak(1)
+# Helpers functions
+# -----------------
+from src.helpers import funcs as hlp
   
-# CONSTANTS
-# =========
-TARGET_URL: str = "http://books.toscrape.com/"
-
-# HELPERS FUNCTIONS
-# =================
-def LineBreak(pHowMany: int = 1) -> None:
-  for i in range(0, pHowMany): print("+ ")
-
-def SectionBreak() -> None:
-  LineBreak(1)
-  print("+ ---------------------------------------------------------")
-  LineBreak(1)
-
-# CUSTOM FUNCTIONS
-# ================
-#
 # ScrapBooksFromPage
 # ------------------
 # Fetch HTML content from target page and extract book titles and prices.
@@ -55,11 +38,20 @@ def SectionBreak() -> None:
 # @param string $pUrl The target URL to scrap book data from.
 # @return void
 def ScrapBooksFromPage(pUrl: str) -> None:
-  # Perform HTTP request to obtain raw HTML content
+  hlp.nbsp()
+  print(f"+ =========================================================")
+  print(f"+ INITIATING WEB SCRAPING FROM: -{pUrl}-")
+  print(f"+ ---------------------------------------------------------")
+  hlp.LineBreak(1)
+  
+  # Perform HTTP request to get raw HTML content
   response: requests.Response = requests.get(pUrl)
   
   # Ensure target server responded successfully before parsing
-  if response.status_code != 200: print(f"Error fetching URL: HTTP {response.status_code}"); return
+  if 200 != response.status_code: 
+    print(f"Error fetching URL: HTTP {response.status_code}")
+    print(f"+ ---------------------------------------------------------")
+    return
 
   # Parse raw HTML text using BeautifulSoup html.parser
   soup: BeautifulSoup = BeautifulSoup(response.text, "html.parser")
@@ -67,11 +59,9 @@ def ScrapBooksFromPage(pUrl: str) -> None:
   # Locate all book container elements in the DOM (<article class="product_pod">)
   bookContainers: ResultSet = soup.find_all("article", class_="product_pod")
 
-  print(f"+ =========================================================")
-  print(f"+ WEB SCRAPING RESULTS: -{pUrl}-")
   print(f"+ Total books found on page: {len(bookContainers)}")
   print(f"+ ---------------------------------------------------------")
-  LineBreak(1)
+  hlp.nbsp()
 
   # Iterate through detected book containers to parse title and price attributes
   for book in bookContainers:
@@ -83,10 +73,14 @@ def ScrapBooksFromPage(pUrl: str) -> None:
     priceTag: Tag = book.find("p", class_="price_color")
     bookPrice: str = priceTag.get_text(strip=True) if priceTag else "Price not found"
 
-    print(f"Title: {bookTitle:<60} | Price: {bookPrice}")
+    print(f"Book {bookContainers.index(book) + 1}: Title: {bookTitle:<60}   | Price: {bookPrice}")
 
-  SectionBreak()
-
+  # hlp.nbsp(1, "+")
+  hlp.nbsp()
+  print(f"+ ---------------------------------------------------------")
+  print(f"+ WEB SCRAPPING ENDS")
+  print(f"+ =========================================================")
+    
 # EXECUTION ENTRY POINT
 # =====================
 if __name__ == "__main__":
