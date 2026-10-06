@@ -1,5 +1,7 @@
+# Original statement of the exercise:
+# ===================================
 # EJERCICIO 5
-# ===========
+# -----------
 # Desarrolla un script en Python que realice web scraping de una tienda de libros en línea. 
 # En este ejercicio, se pide crear un programa que extraiga información sobre libros de la página web "http://books.toscrape.com/". 
 # 
@@ -7,15 +9,6 @@
 # 2.- Extrae el título y el precio de cada libro listado en la página. 
 # 
 # Para realizarlo tendrás que mirar bien que contiene el Html de la web para saber que contenido extraer. 
-
-
-
-
-
-
-
-
-
 
 
 # REQUIRES
@@ -26,12 +19,6 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet, Tag
-
-# PATHS
-# =====
-# CURRENT FILE PATH
-CURR_EXECERCISES_FILES_PATH = Path(__file__).resolve()
-DATA_DIR = CURR_EXECERCISES_FILES_PATH.parent.parent / "data"
 
 # HELPERS FUNCTIONS
 # =================
