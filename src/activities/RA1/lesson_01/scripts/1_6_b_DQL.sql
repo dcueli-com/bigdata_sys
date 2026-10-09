@@ -89,15 +89,14 @@ SELECT ROUND(SUM(price), 2) AS total_catalog_price
 FROM ra_1_5_books;
 
 -- =============================================================================
--- Original statement 5: Consulta Avanzada
 -- DQLs
--- ADVANCED QUERY
--- =============================================================================
+-- Original statement 5: Consulta Avanzada
 -- Crea una consulta que muestre el título del libro, su precio, y una columna
 -- adicional que indique si el libro es "Barato" (menor al promedio) o "Caro" 
 -- (mayor o igual al promedio).
-SELECT title,
-  price,
+-- ADVANCED QUERY
+-- =============================================================================
+SELECT title, price,
   CASE
     WHEN price >= (
       SELECT AVG(price)
@@ -108,27 +107,38 @@ SELECT title,
 FROM ra_1_5_books
 ORDER BY price DESC;
 
--- To add more value, we can also include the average price in the result set and categorize each book as "Barato" or "Caro" based on its price relative to the average. This provides a clearer context for the pricing of each book.
-SELECT 'Precio medio' AS title, s.avg_price AS price, NULL AS price_category
-UNION
-SELECT title,
-  price,
-  CASE
-    WHEN price = s.avg_price THEN 'Precio medio'
-    WHEN price > s.avg_price THEN CONCAT(
-      'Caro (+',
-      ROUND((price - s.avg_price) / s.avg_price * 100, 2),
-      '%)'
-    )
-    ELSE CONCAT(
-      'Barato (-',
-      ROUND((s.avg_price - price) / s.avg_price * 100, 2),
-      '%)'
-    )
-  END AS price_category
-FROM ra_1_5_books
-  JOIN (
-    SELECT AVG(price) AS avg_price
-    FROM ra_1_5_books
-  ) AS s
-ORDER BY price DESC;
+-- My version of the advanced query with a Common Table Expression (CTE, ANSI SQL)
+-- 
+-- To add more value, we can also include the average price in the result set 
+-- and categorize each book as "Barato" or "Caro" based on its price relative
+-- to the average.
+-- This provides a clearer context for the pricing of each book.
+WITH book_stats AS (
+  SELECT ROUND(AVG(price), 2) AS avg_price
+  FROM ra_1_5_books
+)
+SELECT title,  price,  price_category
+FROM (
+  SELECT '--- Precio medio ---' AS title,
+    s.avg_price AS price,
+    '' AS price_category,
+    0 AS sort_order
+  FROM book_stats AS s
+  UNION ALL
+  SELECT b.title,
+    b.price,
+    CASE
+      WHEN b.price = s.avg_price THEN 'Precio medio'
+      WHEN b.price > s.avg_price THEN 'Caro (+' || CAST(
+        ROUND((b.price - s.avg_price) / s.avg_price * 100, 2) AS CHAR(20)
+      ) || '%)'
+      ELSE 'Barato (-' || CAST(
+        ROUND((s.avg_price - b.price) / s.avg_price * 100, 2) AS CHAR(20)
+      ) || '%)'
+    END AS price_category,
+    1 AS sort_order
+  FROM ra_1_5_books AS b
+    CROSS JOIN book_stats AS s
+) AS result
+ORDER BY sort_order,
+price DESC;
