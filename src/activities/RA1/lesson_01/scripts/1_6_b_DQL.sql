@@ -113,15 +113,16 @@ ORDER BY price DESC;
 -- and categorize each book as "Barato" or "Caro" based on its price relative
 -- to the average.
 -- This provides a clearer context for the pricing of each book.
+-- [OPTIONAL] EXPLAIN ANALYZE 
 WITH book_stats AS (
   SELECT ROUND(AVG(price), 2) AS avg_price
   FROM ra_1_5_books
 )
 SELECT title,  price,  price_category
 FROM (
-  SELECT '--- Precio medio ---' AS title,
+  SELECT '' AS title,
     s.avg_price AS price,
-    '' AS price_category,
+    'Precio medio' AS price_category,
     0 AS sort_order
   FROM book_stats AS s
   UNION ALL
