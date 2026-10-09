@@ -210,6 +210,8 @@ __marimo__/
 ## Datasets
 # src/activities/**/data/
 src/activities/RA1/lesson_01/data/la_core_web_md-3.9.5-py3-none-any.whl
+# Folder for temporary or helpers files
+src/**/temp/
 
 ## Reports
 src/activities/reports/

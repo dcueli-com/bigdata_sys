@@ -68,7 +68,7 @@ CREATE TABLE ra_1_5_books (
   id INT AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(128) NOT NULL,
   price DECIMAL(10, 2) NOT NULL
-) ENGINE = InnoDB;
+);
 
 -- Index on title: Optimizes searches, filtering, and text lookups
 CREATE INDEX idx_ra_1_5_books_title ON ra_1_5_books(title);
@@ -102,70 +102,3 @@ INSERT INTO ra_1_5_books (title, price) VALUES
 ('Mesaerion: The Best Science Fiction Stories 1800-1849', 37.59),
 ('Libertarianism for Beginners', 51.33),
 ('It''s Only the Himalayas', 45.17);
-
--- =============================================================================
--- Original statement 5: Consultas SQL
--- DQL - ANALYTICAL QUERIES
--- =============================================================================
--- 5.a. Selecciona todos los libros y muéstralos ordenados por precio de forma 
---      descendente
-SELECT id,
-  title,
-  price
-FROM ra_1_5_books
-ORDER BY price DESC;
-
--- 5.b. Calcula el precio promedio de todos los libros.
-SELECT ROUND(AVG(price), 2) AS average_price
-FROM ra_1_5_books;
-
--- 5.c. Encuentra el libro más caro y el más barato.
-SELECT 'Most Expensive' AS category,
-  title,
-  price
-FROM ra_1_5_books
-WHERE price = (
-    SELECT MAX(price)
-    FROM ra_1_5_books
-  )
-UNION ALL
-SELECT 'Cheapest' AS category,
-  title,
-  price
-FROM ra_1_5_books
-WHERE price = (
-    SELECT MIN(price)
-    FROM ra_1_5_books
-  );
-
--- 5.d. Cuenta cuántos libros tienen un precio superior a $50.
-SELECT COUNT(*) AS total_books_over_50
-FROM ra_1_5_books
-WHERE price > 50.00;
-
--- 5.e. Selecciona los títulos de los 5 libros más baratos
-SELECT title,
-  price
-FROM ra_1_5_books
-ORDER BY price ASC
-LIMIT 5;
-
--- 5.f. Calcula el precio total de todos los libros en la base de datos
-SELECT ROUND(SUM(price), 2) AS total_catalog_price
-FROM ra_1_5_books;
-
--- =============================================================================
--- ADVANCED CONSULTATION
--- =============================================================================
--- Query 5: Categorize each book as 'Expensive' or 'Cheap' relative to the average price
-SELECT title,
-  price,
-  CASE
-    WHEN price >= (
-      SELECT AVG(price)
-      FROM ra_1_5_books
-    ) THEN 'Expensive'
-    ELSE 'Cheap'
-  END AS price_category
-FROM ra_1_5_books
-ORDER BY price DESC;
