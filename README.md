@@ -15,12 +15,15 @@ bigdata_sys/
 |
 ├── src/
 |   ├── activities/
-|   |   ├── RA1/
+|   |   └── RA1/
 |   |   |   ├── lesson_01/
 |   |   |   |   ├── data/
 |   |   |   |   ├── notebooks/
 |   |   |   |   └── scripts/
-|   |   ├── lesson_02/
+|   |   |   └── lesson_02/
+|   |   |       ├── data/
+|   |   |       ├── notebooks/
+|   |   |       └── scripts/
 |   |   |
 |   |   ├── reports/ [.gitignore]
 |   |   └── temp/

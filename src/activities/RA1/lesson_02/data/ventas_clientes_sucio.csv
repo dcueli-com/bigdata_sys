@@ -1,0 +1,16 @@
+﻿id_cliente,nombre,ciudad,email,edad,importe_compra,fecha_compra,metodo_pago
+1, Ana López ,Barcelona,ana@email.com,25,120.50,2026-01-15,Tarjeta
+2,MARC GARCIA,barcelona,marc@email.com,31,"89,90",16/01/2026,tarjeta
+3,Lucía Pérez,Madrid ,lucia@email.com,,210.00,2026/01/17,Efectivo
+4,Jordi Serra,BARCELONA,jordi@email.com,42,-15.00,18-01-2026,Transferencia
+5,Marta Ruiz,Valencia,,29,75.20,2026-01-19,Tarjeta
+6,  Pablo Martín,madrid,pablo@email.com,35 años,130.00,2026-01-20,efectivo
+7,Clara Soler ,Barcelona,clara@email.com,27,,2026-01-21,Tarjeta
+8,David Gil,Valencia,david@email.com,200,95.60,2026-01-22,Transferencia
+9,Elena Costa,Sevilla,elena@email.com,33,abc,2026-01-23,Tarjeta
+10,Nil Bosch,Barcelona,nil@email.com,24,110.00,fecha_desconocida,Efectivo
+11,Sara Mora,MADRID,sara@email.com,30,140.30,2026-01-25,tarjeta
+11,Sara Mora,MADRID,sara@email.com,30,140.30,2026-01-25,tarjeta
+12,Óscar León, Valencia ,oscar@email.com,28,67.40,2026-01-26,Transferencia
+13,Nora Vidal,,nora@email.com,26,155.00,2026-01-27,Tarjeta
+14,Leo Ramos,Barcelona,leo@email.com,-3,99.99,2026-01-28,Efectivo
