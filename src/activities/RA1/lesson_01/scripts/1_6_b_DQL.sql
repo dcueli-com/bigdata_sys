@@ -47,9 +47,7 @@
 -- =============================================================================
 -- 5.a. Selecciona todos los libros y muéstralos ordenados por precio de forma 
 --      descendente
-SELECT id,
-  title,
-  price
+SELECT id, title, price
 FROM ra_1_5_books
 ORDER BY price DESC;
 
