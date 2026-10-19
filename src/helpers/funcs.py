@@ -6,11 +6,23 @@ def LineBreak(pHowMany: int = 1) -> None:
   for i in range(0, pHowMany):
     print(f"+ ")
 
-def SectionBreak() -> None:
-  LineBreak(1)
+def SectionBreak(pLnInit: int = 1, pLnEnd: int = 1) -> None:
+  LineBreak(pLnInit)
   print(f"+ ---------------------------------------------------------")
-  LineBreak(1)
+  LineBreak(pLnEnd)
 
-def SectionEnd() -> None:
-  LineBreak(1)
+def SectionBegin(pTitle: str = "", pLineBreak: int = 1) -> None:
+  print(f"+ =========================================================")
+
+  if pTitle:
+    print(f"+ {pTitle}")
+    
+  if pLineBreak:
+      LineBreak(pLineBreak)
+
+
+def SectionEnd(pLineBreak: int = 1) -> None:
+  if pLineBreak:
+      LineBreak(pLineBreak)
+      
   print(f"+ =========================================================")
