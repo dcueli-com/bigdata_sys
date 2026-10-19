@@ -1,27 +1,31 @@
 # Original statement of the exercise:
 # ===================================
-# EJERCICIO 5
-# -----------
-# Desarrolla un script en Python que realice web scraping de una tienda de libros en línea. 
-# En este ejercicio, se pide crear un programa que extraiga información sobre libros de la página web "http://books.toscrape.com/". 
-# 
-# 1.- Utiliza las bibliotecas requests y BeautifulSoup para realizar web scraping de la página principal de "http://books.toscrape.com/". 
-# 2.- Extrae el título y el precio de cada libro listado en la página. 
-# 
-# Para realizarlo tendrás que mirar bien que contiene el Html de la web para saber que contenido extraer. 
+# EJERCICIO 5:  Una empresa de comercio electrónico está implementando un sistema de análisis de ventas en tiempo real. Como parte de este proyecto, necesitan asegurar la calidad de los datos que alimentarán su sistema. Se te ha proporcionado un archivo CSV llamado 'ventas_con_problemas.csv' que contiene datos de ventas de los últimos 30 días. Este archivo contiene varios problemas de calidad de datos que deben ser identificados y corregidos.Tu tarea es desarrollar un script en Python que realice las siguientes operaciones:
+# 1. Carga el archivo CSV y realiza una exploración inicial de los datos.
+# 2. Identifica y maneja los siguientes problemas de calidad de datos:
+#    - Valores nulos en campos críticos (fecha, producto, cantidad, precio_unitario, total)
+#    - Fechas inválidas
+#    - Valores negativos en campos numéricos (cantidad, precio_unitario, total)
+#    - Inconsistencias en el cálculo del total (comparando cantidad * precio_unitario con el total registrado)
+#    - Valores atípicos (outliers) en campos numéricos
+#    - Duplicados
+# 3.	Implementa técnicas de limpieza de datos para corregir o eliminar los problemas identificados.
+# 4.	Genera un informe que incluya:
+#    - Número de filas originales vs. número de filas después de la limpieza
+#    - Cantidad de problemas identificados y corregidos por cada tipo
+#    - Estadísticas descriptivas de los datos limpios (media, mediana, desviación estándar) para campos numéricos
+# 5.	Crea visualizaciones que ayuden a entender la distribución de los datos y los efectos de la limpieza.
+# 6.	Guarda los datos limpios en un nuevo archivo CSV.
+#
+# Módulos que pueden usar: pandas, numpy, matplotlib, seaborn
 
 
 # REQUIRES
 # ========
-# System
-# ------
-import time
-import requests
-
-# Libraries
-# ---------
-from bs4 import BeautifulSoup
-from bs4.element import ResultSet, Tag
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Defines
 # -------
@@ -30,58 +34,68 @@ from src.config.globals import *
 # Helpers functions
 # -----------------
 from src.helpers import funcs as hlp
+
+# PATHS
+# =====
+# CURRENT FILE PATH
+CURR_EXECERCISES_FILES_PATH = Path(__file__).resolve()
+DATA_DIR = CURR_EXECERCISES_FILES_PATH.parent / "data"
+
+# Carga del archivo CSV del origen de datos
+# dataset:str = "../data/ventas_con_problemas.csv"
+dataset:str = DATA_DIR / "ventas_con_problemas.csv"
+
+# Definimos las variabes previamente
+df: pd.DataFrame
+
+print(f"+ =========================================================")
+print(f"+ DATASET PATH: \n{dataset}")
+print(f"+ ---------------------------------------------------------")
+try:
+  df = pd.read_csv(dataset)
+  print(f"File loaded successfully. Total of original rows: {len(df)}")
+  print(f"First 5 rows of the dataset:")
+  print(df.head())
   
-# ScrapBooksFromPage
-# ------------------
-# Fetch HTML content from target page and extract book titles and prices.
-#
-# @param string $pUrl The target URL to scrap book data from.
-# @return void
-def ScrapBooksFromPage(pUrl: str) -> None:
-  hlp.nbsp()
-  print(f"+ =========================================================")
-  print(f"+ INITIATING WEB SCRAPING FROM: -{pUrl}-")
-  print(f"+ ---------------------------------------------------------")
-  hlp.LineBreak(1)
-  
-  # Perform HTTP request to get raw HTML content
-  response: requests.Response = requests.get(pUrl)
-  
-  # Ensure target server responded successfully before parsing
-  if 200 != response.status_code: 
-    print(f"Error fetching URL: HTTP {response.status_code}")
-    print(f"+ ---------------------------------------------------------")
-    return
+except FileNotFoundError:
+  print(f"Error: Please, check path. \n'{dataset}'")
+  print(f"Error: File not found.")
 
-  # Parse raw HTML text using BeautifulSoup html.parser
-  soup: BeautifulSoup = BeautifulSoup(response.text, "html.parser")
-  
-  # Locate all book container elements in the DOM (<article class="product_pod">)
-  bookContainers: ResultSet = soup.find_all("article", class_="product_pod")
+hlp.LineBreak(1)
 
-  print(f"+ Total books found on page: {len(bookContainers)}")
-  print(f"+ ---------------------------------------------------------")
-  hlp.nbsp()
+# # 2. Conversión a tipos numéricos seguros
+# df['cantidad_num'] = pd.to_numeric(df['cantidad'], errors='coerce')
+# df['precio_num'] = pd.to_numeric(df['precio_unitario'], errors='coerce')
+# df['total_num'] = pd.to_numeric(df['total'], errors='coerce')
 
-  # Iterate through detected book containers to parse title and price attributes
-  for book in bookContainers:
-    # Extract title from 'title' attribute of anchor inside <h3> to get full unclipped title
-    titleTag: Tag = book.find("h3").find("a")
-    bookTitle: str = titleTag["title"] if titleTag and "title" in titleTag.attrs else "Title not found"
+# # 3. Validación estricta de fechas (Año 2026 válido)
+# def parsear_fecha_estricta(val):
+#     if pd.isna(val): return pd.NaT
+#     try:
+#         dt = pd.to_datetime(str(val).strip(), errors='raise')
+#         return dt if dt.year == 2026 else pd.NaT
+#     except:
+#         return pd.NaT
 
-    # Extract price text from paragraph element with class 'price_color'
-    priceTag: Tag = book.find("p", class_="price_color")
-    bookPrice: str = priceTag.get_text(strip=True) if priceTag else "Price not found"
+# df['fecha_limpia'] = df['fecha'].apply(parsear_fecha_estricta)
 
-    print(f"Book {bookContainers.index(book) + 1}: Title: {bookTitle:<60}   | Price: {bookPrice}")
+# # 4. Filtrado de registros inválidos, negativos, nulos y outliers extremos
+# df_clean = df.dropna(subset=['fecha_limpia', 'producto', 'cantidad_num', 'precio_num', 'total_num']).copy()
+# df_clean = df_clean[
+#     (df_clean['cantidad_num'] > 0) & (df_clean['cantidad_num'] <= 50) &
+#     (df_clean['precio_num'] > 0) & (df_clean['precio_num'] <= 500) &
+#     (df_clean['total_num'] > 0)
+# ]
 
-  # hlp.nbsp(1, "+")
-  hlp.nbsp()
-  print(f"+ ---------------------------------------------------------")
-  print(f"+ WEB SCRAPPING ENDS")
-  print(f"+ =========================================================")
-    
-# EXECUTION ENTRY POINT
-# =====================
-if __name__ == "__main__":
-  ScrapBooksFromPage(TARGET_URL)
+# # 5. Validación de consistencia aritmética (cantidad * precio_unitario == total)
+# df_clean['total_calc'] = df_clean['cantidad_num'] * df_clean['precio_num']
+# df_clean = df_clean[np.isclose(df_clean['total_calc'], df_clean['total_num'], atol=1.0)]
+
+# # 6. Estadísticas descriptivas de los datos limpios
+# stats = df_clean[['cantidad_num', 'precio_num', 'total_num']].agg(['mean', 'median', 'std'])
+# print(stats)
+
+# # 7. Guardar el resultado en un nuevo archivo CSV limpio
+# df_export = df_clean[['fecha_limpia', 'producto', 'cantidad_num', 'precio_num', 'total_num']].copy()
+# df_export.columns = ['fecha', 'producto', 'cantidad', 'precio_unitario', 'total']
+# df_export.to_csv('ventas_limpias_v2.csv', index=False)

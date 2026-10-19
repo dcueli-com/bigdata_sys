@@ -63,37 +63,37 @@ def ProcessTextWithModel(pDoc: spacy.language, pLang: str = "Not defined"):
 
 # (n)atural (l)anguage (p)rocessing (NLP) models for different languages
 # Spanish
-nlp_ES = spacy.load("es_core_news_sm")
+nlpES = spacy.load("es_core_news_sm")
 # Latin
-nlp_LA = spacy.load("la_core_web_md")
+nlpLA = spacy.load("la_core_web_md")
 
 # IMPORT SOURCE TEXT
 # ==================
 # Read file with text
-rnd_text_path = DATA_DIR / "chiquito-ipsum.txt"
+rndTextPath = DATA_DIR / "chiquito-ipsum.txt"
 # Text to analyze
 text = ""
 
-with open(rnd_text_path, "r", encoding="utf-8") as f:
+with open(rndTextPath, "r", encoding="utf-8") as f:
   text = f.read()
   
 # PROCESSING TEXT
 # ===============
-doc_ES = nlp_ES(text)
-doc_LA = nlp_LA(text)
+docES = nlpES(text)
+docLA = nlpLA(text)
 
 # Process text with model
-ProcessTextWithModel(doc_ES, "Spanish")
+ProcessTextWithModel(docES, "Spanish")
 # Process text with model
-ProcessTextWithModel(doc_LA, "Latin")
+ProcessTextWithModel(docLA, "Latin")
 
 # PROCESSING TEXT IN HYBRID or INTERSECTION (ESPAÑOL + LATIN)
 # ===========================================================
 tInit = time.time()
 
 # Extract person entities
-perEntitiesES = set([entity.text for entity in doc_ES.ents if entity.label_ == "PER"])
-perEntitiesLA = set([entity.text for entity in doc_LA.ents if entity.label_ == "PERSON"])
+perEntitiesES = set([entity.text for entity in docES.ents if entity.label_ == "PER"])
+perEntitiesLA = set([entity.text for entity in docLA.ents if entity.label_ == "PERSON"])
 # Intersection of both sets to find confirmed person names detected by BOTH models (Consensus)
 consensusPersons = perEntitiesES.intersection(perEntitiesLA)
 
