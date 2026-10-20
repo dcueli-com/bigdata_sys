@@ -20,7 +20,6 @@ def SectionBegin(pTitle: str = "", pLineBreak: int = 1) -> None:
   if pLineBreak:
       LineBreak(pLineBreak)
 
-
 def SectionEnd(pLineBreak: int = 1) -> None:
   if pLineBreak:
       LineBreak(pLineBreak)

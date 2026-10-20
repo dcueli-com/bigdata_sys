@@ -29,7 +29,7 @@ from src.config.globals import *
 
 # Helpers functions
 # -----------------
-from src.helpers import funcs as hlp
+from helpers import console as csl
   
 # ScrapBooksFromPage
 # ------------------
@@ -38,11 +38,11 @@ from src.helpers import funcs as hlp
 # @param string $pUrl The target URL to scrap book data from.
 # @return void
 def ScrapBooksFromPage(pUrl: str) -> None:
-  hlp.nbsp()
+  csl.nbsp()
   print(f"+ =========================================================")
   print(f"+ INITIATING WEB SCRAPING FROM: -{pUrl}-")
   print(f"+ ---------------------------------------------------------")
-  hlp.LineBreak(1)
+  csl.LineBreak(1)
   
   # Perform HTTP request to get raw HTML content
   response: requests.Response = requests.get(pUrl)
@@ -61,7 +61,7 @@ def ScrapBooksFromPage(pUrl: str) -> None:
 
   print(f"+ Total books found on page: {len(bookContainers)}")
   print(f"+ ---------------------------------------------------------")
-  hlp.nbsp()
+  csl.nbsp()
 
   # Iterate through detected book containers to parse title and price attributes
   for book in bookContainers:
@@ -75,8 +75,8 @@ def ScrapBooksFromPage(pUrl: str) -> None:
 
     print(f"Book {bookContainers.index(book) + 1}: Title: {bookTitle:<60}   | Price: {bookPrice}")
 
-  # hlp.nbsp(1, "+")
-  hlp.nbsp()
+  # csl.nbsp(1, "+")
+  csl.nbsp()
   print(f"+ ---------------------------------------------------------")
   print(f"+ WEB SCRAPPING ENDS")
   print(f"+ =========================================================")
