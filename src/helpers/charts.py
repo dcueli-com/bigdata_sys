@@ -11,7 +11,7 @@
 # -----------------------------------------------------------------------------
 # charts.py
 # ---------
-# Provides modular, decoupled chart generation functions for data auditing and
+# Provides modular, decoupled chart generation functions for data analysing and
 # diagnostics, adhering strictly to the Single Responsibility Principle and 
 # externalized rendering.
 # =============================================================================
@@ -38,9 +38,168 @@ from typing import Literal, Dict
 # ----------------
 import src.helpers.validations as val
 
+
+# SequentialScatterCht
+# --------------------
+# Renders sequential scatter plots (Record Index vs Columns across multiple subplots)
+#
+# @param pd.DataFrame   pDf       The pandas dataframe containing the data.
+# @param list           pCols     List of column names to plot.
+# @param Dict[str, any] pCfgChart Configuration dictionary for sizing, styling, and fonts.
+# @param any            pPlt      Matplotlib pyplot module passed by reference.
+# 
+# @return Dict[str, any] Result object containing bOk status and error details if applicable.
+def SequentialScatterCht(
+  pDf: pd.DataFrame, 
+  pCols: list,
+  pCfgChart: Dict[str, any],
+  pPlt: any
+)-> Dict[str, any]:
+  ncols: int = pCfgChart.get("ncols", 2)
+  fig, axes = pPlt.subplots(ncols=ncols, figsize=pCfgChart.get("figsize", (14, 6)))
+  
+  axesList = [axes] if ncols == 1 else axes
+  
+  for i, col in enumerate(pCols[:ncols]):
+    sns.scatterplot(
+      x=pDf.index, 
+      y=pd.to_numeric(pDf[col], errors='coerce'), 
+      ax=axesList[i], 
+      color=pCfgChart.get("color", "steelblue"), 
+      alpha=pCfgChart.get("alpha", 0.6), 
+      s=pCfgChart.get("size", 30)
+    )
+    
+    axesList[i].set_title(f'{col.replace("_", " ").title()} Scatter Plot', fontsize=pCfgChart.get("fontS", 12), fontweight=pCfgChart.get("fontW", "bold"))
+    axesList[i].set_xlabel('Record Index')
+    axesList[i].set_ylabel(col)
+    axesList[i].grid(True, linestyle='--', alpha=0.6)
+  
+  return {"bOk": True}
+
+# RelationalScatterCht
+# --------------------
+# Renders relational scatter plots (Column X vs Column Y) with optional diagonal line
+#
+# @param pd.DataFrame   pDf       The pandas dataframe containing the data.
+# @param list           pCols     List of column names to plot.
+# @param Dict[str, any] pCfgChart Configuration dictionary for sizing, styling, and fonts.
+# @param any            pPlt      Matplotlib pyplot module passed by reference.
+# 
+# @return Dict[str, any] Result object containing bOk status and error details if applicable.
+def RelationalScatterCht(
+  pDf: pd.DataFrame, 
+  pCols: list,
+  pCfgChart: Dict[str, any],
+  pPlt: any
+)-> Dict[str, any]:
+  if 2 > len(pCols): return {
+    "bOk": False,
+    "err": {
+      "code": 400,
+      "whre": sys._getframe(0).f_code.co_name,
+      "mssg": "Relational scatter plot requires at least two columns [x_col, y_col]."
+    }
+  }
+  
+  xCol, yCol = pCols[0], pCols[1]
+  fig, ax = pPlt.subplots(figsize=pCfgChart.get("figsize", (8, 8)))
+  
+  xVals = pd.to_numeric(pDf[xCol], errors='coerce')
+  yVals = pd.to_numeric(pDf[yCol], errors='coerce')
+  
+  sns.scatterplot(
+    x=xVals, 
+    y=yVals, 
+    ax=ax,
+    color=pCfgChart.get("color", "steelblue"), 
+    alpha=pCfgChart.get("alpha", 0.7),
+    edgecolors=pCfgChart.get("edgecolors", "k"),
+    s=pCfgChart.get("size", 40)
+  )
+  
+  # Optional diagonal reference line (e.g., 45-degree line for error checks)
+  if pCfgChart.get("show_diagonal", False):
+    minVal = min(xVals.min(), yVals.min())
+    maxVal = max(xVals.max(), yVals.max())
+    ax.plot([minVal, maxVal], [minVal, maxVal], color='red', linestyle='--', linewidth=1.5, label=pCfgChart.get("diagonal_label", "Ideal (y = x)"))
+    ax.legend()
+    
+  ax.set_title(
+    pCfgChart.get("title", f"{yCol} vs {xCol}"),
+    fontsize=pCfgChart.get("fontS", 12), 
+    fontweight=pCfgChart.get("fontW", "bold")
+  )
+  ax.set_xlabel(pCfgChart.get("xlabel", xCol))
+  ax.set_ylabel(pCfgChart.get("ylabel", yCol))
+  ax.grid(True, linestyle='--', alpha=0.6)
+  
+  return {"bOk": True}
+
+# ResidualsScatterCht
+# ------------------
+# Renders a residuals scatter plot (Calculated Total vs Difference: Reported - Calculated)
+# with a zero-reference line to clearly spot calculation errors and sign flips despite outliers.
+#
+# @param pd.DataFrame   pDf       The pandas dataframe containing the data.
+# @param list           pCols     List of column names to plot.
+# @param Dict[str, any] pCfgChart Configuration dictionary for sizing, styling, and fonts.
+# @param any            pPlt      Matplotlib pyplot module passed by reference.
+# 
+# @return Dict[str, any] Result object containing bOk status and error details if applicable.
+def ResidualsScatterCht(
+  pDf: pd.DataFrame, 
+  pCols: list,
+  pCfgChart: Dict[str, any],
+  pPlt: any
+)-> Dict[str, any]:
+  if len(pCols) < 2:
+    return {
+      "bOk": False,
+      "err": {
+        "code": 400,
+        "whre": sys._getframe(0).f_code.co_name,
+        "mssg": "Residuals scatter plot requires at least two columns [calc_col, reported_col]."
+      }
+    }
+  
+  calcCol, repCol = pCols[0], pCols[1]
+  fig, ax = pPlt.subplots(figsize=pCfgChart.get("figsize", (10, 6)))
+  
+  xVals = pd.to_numeric(pDf[calcCol], errors='coerce')
+  yVals = pd.to_numeric(pDf[repCol], errors='coerce')
+  
+  # Calculate residuals/difference: Reported - Calculated
+  residuals = yVals - xVals
+  
+  sns.scatterplot(
+    x=xVals, 
+    y=residuals, 
+    ax=ax,
+    color=pCfgChart.get("color", "steelblue"), 
+    alpha=pCfgChart.get("alpha", 0.7),
+    edgecolors=pCfgChart.get("edgecolors", "k"),
+    s=pCfgChart.get("size", 40)
+  )
+  
+  # Perfect match reference line at Y = 0
+  ax.axhline(0, color='red', linestyle='--', linewidth=1.5, label=pCfgChart.get("ref_label", "Ideal (Diff = 0)"))
+  ax.legend()
+    
+  ax.set_title(
+    pCfgChart.get("title", "Error Analysis: Residuals (Reported vs Calculated)"),
+    fontsize=pCfgChart.get("fontS", 12), 
+    fontweight=pCfgChart.get("fontW", "bold")
+  )
+  ax.set_xlabel(pCfgChart.get("xlabel", calcCol))
+  ax.set_ylabel(pCfgChart.get("ylabel", "Difference (Reported - Calculated)"))
+  ax.grid(True, linestyle='--', alpha=0.6)
+  
+  return {"bOk": True}
+
 # ScatterCht
 # ----------
-# Renders sequential scatter plots for specified numeric columns to spot individual anomalies
+# Orchestrator for scatter plots: routes to sequential or relational implementation.
 #
 # @param pd.DataFrame   pDf       The pandas dataframe containing the data.
 # @param list           pCols     List of column names to plot.
@@ -61,28 +220,71 @@ def ScatterCht(
     }, 
     sys._getframe(0).f_code.co_name
   )
-  
   if not res["bOk"]: return res
       
-  ncols:int = pCfgChart.get("ncols", 2)
+  mode = pCfgChart.get("mode", "seq")
   
-  fig, axes = pPlt.subplots(ncols=ncols, figsize=pCfgChart.get("figsize", (14, 6)))
+  if "seq" == mode:
+    return SequentialScatterCht(pDf, pCols, pCfgChart, pPlt)
+  elif "rel" == mode:
+    return RelationalScatterCht(pDf, pCols, pCfgChart, pPlt)
+  elif "res" == mode:
+    return ResidualsScatterCht(pDf, pCols, pCfgChart, pPlt)
+  else:
+    return {
+      "bOk": False,
+      "err": {
+        "code": 400,
+        "whre": sys._getframe(0).f_code.co_name,
+        "mssg": f"Unknown scatter mode: '{mode}'. Use 'seq' for sequential mode, 'rel' for relational mode or 'res' for residuals mode."
+      }
+    }
+
+# ScatterCht
+# ----------
+# Renders sequential scatter plots for specified numeric columns to spot individual anomalies
+#
+# @param pd.DataFrame   pDf       The pandas dataframe containing the data.
+# @param list           pCols     List of column names to plot.
+# @param Dict[str, any] pCfgChart Configuration dictionary for sizing, styling, and fonts.
+# @param any            pPlt      Matplotlib pyplot module passed by reference.
+# 
+# @return Dict[str, any] Result object containing bOk status and error details if applicable.
+# def ScatterCht(
+#   pDf: pd.DataFrame, 
+#   pCols: list,
+#   pCfgChart: Dict[str, any],
+#   pPlt: any
+# )-> Dict[str, any]:
+#   res = val.ValidateParams({
+#       "pDf": pDf, 
+#       "pCols": pCols, 
+#       "pCfgChart": pCfgChart
+#     }, 
+#     sys._getframe(0).f_code.co_name
+#   )
   
-  for i, col in enumerate(pCols[:ncols]):
-    sns.scatterplot(
-      x=pDf.index, 
-      y=pd.to_numeric(pDf[col], errors='coerce'), 
-      ax=axes[i], 
-      color=pCfgChart.get("color", "steelblue"), 
-      alpha=pCfgChart.get("alpha", 0.6), 
-      s=pCfgChart.get("size", 30)
-    )
+#   if not res["bOk"]: return res
+      
+#   ncols:int = pCfgChart.get("ncols", 2)
+  
+#   fig, axes = pPlt.subplots(ncols=ncols, figsize=pCfgChart.get("figsize", (14, 6)))
+  
+#   for i, col in enumerate(pCols[:ncols]):
+#     sns.scatterplot(
+#       x=pDf.index, 
+#       y=pd.to_numeric(pDf[col], errors='coerce'), 
+#       ax=axes[i], 
+#       color=pCfgChart.get("color", "steelblue"), 
+#       alpha=pCfgChart.get("alpha", 0.6), 
+#       s=pCfgChart.get("size", 30)
+#     )
     
-    axes[i].set_title(f'{col.replace("_", " ").title()} Scatter Plot', fontsize=pCfgChart.get("fontS", 12), fontweight=pCfgChart.get("fontW", "bold"))
-    axes[i].set_xlabel('Record Index')
-    axes[i].set_ylabel(col)
+#     axes[i].set_title(f'{col.replace("_", " ").title()} Scatter Plot', fontsize=pCfgChart.get("fontS", 12), fontweight=pCfgChart.get("fontW", "bold"))
+#     axes[i].set_xlabel('Record Index')
+#     axes[i].set_ylabel(col)
   
-  return {"bOk": True}
+#   return {"bOk": True}
 
 # HistogramCht
 # ------------
@@ -195,10 +397,10 @@ def LineCht(
     sys._getframe(0).f_code.co_name
   )
   
-  if not res["bOk"]: return res
+  if not res['bOk']: return res
       
-  ncols: int = pCfgChart.get("ncols", 2)
-  fig, axes = pPlt.subplots(ncols=ncols, figsize=pCfgChart.get("figsize", (14, 6)))
+  ncols: int = pCfgChart.get('ncols', 2)
+  fig, axes = pPlt.subplots(ncols=ncols, figsize=pCfgChart.get('figsize', (14, 6)))
   
   # Safe handling in case <ncols> is 1 and axes is not an indexable array
   axesList = [axes] if ncols == 1 else axes
@@ -208,15 +410,163 @@ def LineCht(
       x=pDf.index, 
       y=pd.to_numeric(pDf[col], errors='coerce'), 
       ax=axesList[i], 
-      color=pCfgChart.get("color", "steelblue"), 
-      alpha=pCfgChart.get("alpha", 0.8), 
-      linewidth=pCfgChart.get("linewidth", 1.5)
+      color=pCfgChart.get('color', 'steelblue'), 
+      alpha=pCfgChart.get('alpha', 0.8), 
+      linewidth=pCfgChart.get('linewidth', 1.5)
     )
     
-    axesList[i].set_title(f'{col.replace("_", " ").title()} Line Chart', fontsize=pCfgChart.get("fontS", 12), fontweight=pCfgChart.get("fontW", "bold"))
+    axesList[i].set_title(
+      f'{col.replace('_', ' ').title()} Line Chart', 
+      fontsize=pCfgChart.get('fontS', 12), 
+      fontweight=pCfgChart.get('fontW', 'bold')
+    )
     axesList[i].set_xlabel('Record Index')
     axesList[i].set_ylabel(col)
   
+  return {"bOk": True}
+
+# MissingValuesBarCht
+# --------------------
+# Renders a horizontal bar chart showing the percentage of missing values per column.
+#
+# @param pd.DataFrame   pDf       The pandas dataframe containing the data.
+# @param list           pCols     List of column names to analyze.
+# @param Dict[str, any] pCfgChart Configuration dictionary for sizing, styling, and fonts.
+# @param any            pPlt      Matplotlib pyplot module passed by reference.
+# 
+# @return Dict[str, any] Result object containing bOk status and error details if applicable.
+def BarCht(
+  pDf: pd.DataFrame, 
+  pCols: list,
+  pCfgChart: Dict[str, any],
+  pPlt: any
+)-> Dict[str, any]:
+  res = val.ValidateParams({"pDf": pDf, "pCols": pCols, "pCfgChart": pCfgChart}, sys._getframe(0).f_code.co_name)
+  if not res["bOk"]: return res
+      
+  totalRows:int = len(pDf)
+  if 0 == totalRows: return {
+    "bOk": False,
+    "err": {
+      "code": 400,
+      "whre": sys._getframe(0).f_code.co_name,
+      "mssg": "DataFrame is empty, cannot compute missing values percentage."
+    }
+  }
+
+  # Calculate missing percentages for the selected columns
+  missingPercentages = (pDf[pCols].isnull().sum() / totalRows) * 100
+  sortedData = missingPercentages.sort_values(ascending=True)
+  
+  # Fixed height
+  # fig, ax = pPlt.subplots(figsize=pCfgChart.get("figsize", (10, 5)))
+  # Dynamic height
+  # Calculate height as per columns number (min 4 inch min)
+  numCols: int = len(sortedData)
+  figsize = (
+    pCfgChart.get("figsize", (10, 5))[0], 
+    max(4.0, numCols * 0.4)
+  )
+  fig, ax = pPlt.subplots(figsize=figsize)
+  
+  # Explicit numeric positions to prevent gaps and alignment issues
+  yPos = range(len(sortedData))  
+  
+  # Plot horizontal bars
+  bars = ax.barh(
+    yPos, 
+    sortedData.values, 
+    color=pCfgChart.get("color", "steelblue"),
+    alpha=pCfgChart.get("alpha", 0.8)
+  )
+
+  # Conditionally render text labels based on configuration parameters
+  if pCfgChart.get("show_values", True):
+    textCfg = pCfgChart.get("text_cfg", {})
+    for bar in bars:
+      width = bar.get_width()
+      ax.text(
+        width + textCfg.get("offset", 1.5), 
+        bar.get_y() + bar.get_height() / 2, 
+        f"{width:.2f}%", 
+        va=textCfg.get("va", "center"), 
+        ha=textCfg.get("ha", "left"), 
+        fontsize=textCfg.get("fontsize", 10), 
+        color=textCfg.get("color", "black")
+      )
+
+  # Set explicit ticks and labels
+  ax.set_yticks(yPos)
+  ax.set_yticklabels(sortedData.index)
+  ax.set_title(
+    pCfgChart.get("title", "Horizontal Bar Chart"),
+    fontsize=pCfgChart.get("fontS", 12), 
+    fontweight=pCfgChart.get("fontW", "bold")
+  )
+  ax.set_xlabel(pCfgChart.get("xlabel", "Value"))
+  ax.set_ylabel(pCfgChart.get("ylabel", "Column"))
+
+  # Fixed X Limit
+  # ax.set_xlim(0, 100)
+  # Dynamic X Limit
+  # X limit is adapted to max value found (min until 100 for percentages)
+  maxVal = max(sortedData.values) if numCols > 0 else 0
+  upperLimit = max(100.0, maxVal * 1.15)
+  ax.set_xlim(0, upperLimit)
+  
+  # Add grid lines behind bars for readability
+  ax.xaxis.grid(True, linestyle='--', alpha=0.6)
+  ax.set_axisbelow(True)
+  
+  return {"bOk": True}
+
+# DifferenceCht
+# -------------
+# Plot the differences between two values.
+#
+# @param pd.DataFrame       pDf The dataframe containing the data.
+# @param list               pCols The reported and calculated column names.
+# @param Dict               pCfgChart The chart configuration.
+# @param matplotlib.pyplot  pPlt The pyplot module.
+# 
+# @return Dict[str, any] Result of the chart generation.
+def DifferenceCht(
+    pDf: pd.DataFrame,
+    pCols: list,
+    pCfgChart: Dict[str, any],
+    pPlt
+) -> Dict[str, any]:
+  res = val.ValidateParams({"pDf": pDf, "pCols": pCols, "pCfgChart": pCfgChart}, sys._getframe(0).f_code.co_name)
+  if not res["bOk"]: return res
+
+
+  # Calculate the differences
+  reported, calculated = pCols
+  differences = pDf[reported] - pDf[calculated]
+
+  # Create the chart
+  fig, ax = pPlt.subplots(figsize=pCfgChart.get('figsize', (12, 6) ) )
+
+  sns.barplot(
+    x=pDf.index,
+    y=differences,
+    color=pCfgChart.get('color', 'steelblue'),
+    ax=ax
+  )
+
+  ax.axhline(0, color='red', linestyle='--', linewidth=1)
+
+  ax.set_title(pCfgChart.get('title', 'Default title'))
+  ax.set_xlabel(pCfgChart.get('xlabel', 'Row index'))
+  ax.set_ylabel(pCfgChart.get('ylabel', 'Reported - calculated'))
+
+  # Optional symmetric logarithmic scale
+  if 'symlog' == pCfgChart.get('yscale'):
+    ax.set_yscale('symlog', linthresh=pCfgChart.get('linthresh', 100))
+
+  ax.tick_params(axis='x', rotation=90)
+  ax.grid(axis='y', alpha=0.3)
+
   return {"bOk": True}
 
 # PlotSalesAnalytics
@@ -232,7 +582,7 @@ def PlotSalesAnalytics(
   pDf: pd.DataFrame,
   pCols: list,
   pCfgChart: Dict[str, any],
-  pChartType: Literal['scatter', 'hist', 'strip', 'line'] = 'scatter'
+  pChartType: Literal['scatter', 'hist', 'strip', 'line', 'bar', 'diff'] = 'scatter'
 ) -> Dict[str, any]:
   res: Dict[str, any] = { "bOk": True }
   
@@ -246,6 +596,10 @@ def PlotSalesAnalytics(
     res = StripCht(pDf, pCols, pCfgChart, plt)
   elif 'line' == pChartType:
     res = LineCht(pDf, pCols, pCfgChart, plt)
+  elif 'bar' == pChartType:
+    res = BarCht(pDf, pCols, pCfgChart, plt)    
+  elif 'difference' == pChartType:
+    res = DifferenceCht(pDf, pCols, pCfgChart, plt)
   else:
     raise ValueError({
       "bOk": True,
@@ -262,65 +616,8 @@ def PlotSalesAnalytics(
   plt.tight_layout()
   plt.show()
   
-
-# MissingValuesCht
-# ----------------
-# Renders a binary heatmap to visualize the presence and distribution of null/missing values.
-#
-# @param pd.DataFrame pDf The pandas dataframe containing the sales data.
-# @return None
-def MissingValuesCht(pDf: pd.DataFrame) -> None:
-  fig, ax = plt.subplots(figsize=(12, 6))
+  return res
   
-  # Heatmap of null values (True/1 if missing, False/0 if present)
-  sns.heatmap(pDf.isnull(), cbar=False, cmap='viridis', ax=ax)
-  
-  ax.set_title('Missing Values Heatmap (Null Distribution)', fontsize=12, fontweight='bold')
-  ax.set_xlabel('Dataset Columns')
-  ax.set_ylabel('Record Index')
-  
-  plt.tight_layout()
-  plt.show()
-
-# TotalsDiscrepancyCht
-# --------------------
-# Renders a scatter plot comparing reported totals vs calculated totals (Price * Quantity).
-# Highlights discrepancies where values deviate from the 45-degree perfect match line.
-#
-# @param pd.DataFrame pDf The pandas dataframe containing the sales data.
-# @return None
-def TotalsDiscrepancyCht(pDf: pd.DataFrame) -> None:
-  # Temporary copy to compute theoretical totals
-  dfTemp = pDf.copy()
-  dfTemp['precio_num'] = pd.to_numeric(dfTemp['precio_unitario'], errors='coerce')
-  dfTemp['cantidad_num'] = pd.to_numeric(dfTemp['cantidad'], errors='coerce')
-  dfTemp['total_num'] = pd.to_numeric(dfTemp['total'], errors='coerce')
-  dfTemp['calculated_total'] = dfTemp['precio_num'] * dfTemp['cantidad_num']
-  
-  fig, ax = plt.subplots(figsize=(8, 8))
-  
-  sns.scatterplot(
-    x='calculated_total', 
-    y='total_num', 
-    data=dfTemp, 
-    ax=ax, 
-    color='crimson', 
-    alpha=0.6, 
-    s=40
-  )
-  
-  # Reference diagonal line for perfect match (y = x)
-  maxVal = max(dfTemp['calculated_total'].max(), dfTemp['total_num'].max()) if not dfTemp['calculated_total'].dropna().empty else 100
-  ax.plot([0, maxVal], [0, maxVal], color='black', linestyle='--', linewidth=1.5, label='Perfect Match (y=x)')
-  
-  ax.set_title('Totals Discrepancy Analysis (Reported vs Calculated)', fontsize=12, fontweight='bold')
-  ax.set_xlabel('Calculated Total (Price × Quantity) (€)')
-  ax.set_ylabel('Reported Total (€)')
-  ax.legend()
-  
-  plt.tight_layout()
-  plt.show()
-
 # AnomaliesSummaryCht
 # -------------------
 # Renders a categorical bar plot summarizing the volume of errors found across audit categories.
