@@ -32,7 +32,8 @@ import seaborn as sns
 # ========
 # System modules
 # --------------
-from typing import Literal, Dict
+from typing import Dict
+from src.config.ctypes import ChartType
 
 # Custom libraries
 # ----------------
@@ -111,7 +112,7 @@ def RelationalScatterCht(
   sns.scatterplot(
     x=xVals, 
     y=yVals, 
-    ax=ax,
+    ax=axes,
     color=pCfgChart.get("color", "steelblue"), 
     alpha=pCfgChart.get("alpha", 0.7),
     edgecolors=pCfgChart.get("edgecolors", "k"),
@@ -175,7 +176,7 @@ def ResidualsScatterCht(
   sns.scatterplot(
     x=xVals, 
     y=residuals, 
-    ax=ax,
+    ax=axes,
     color=pCfgChart.get("color", "steelblue"), 
     alpha=pCfgChart.get("alpha", 0.7),
     edgecolors=pCfgChart.get("edgecolors", "k"),
@@ -546,10 +547,11 @@ def DifferenceCht(
 # @param <matplotlib.pyplot> [pPlt] The pyplot module
 # 
 # @return Dict[str, any]
-def QualitySummaryCht(
-    pCols: list,
-    pCfgChart: Dict[str, any],
-    pPlt
+def QualityCht(
+  pDf: pd.DataFrame,
+  pCols: list,
+  pCfgChart: Dict[str, any],
+  pPlt
 ) -> Dict[str, any]:
   try:
     categories = [item['category'] for item in pCols]
@@ -614,7 +616,7 @@ def QualitySummaryCht(
 # @param <module>         [pPlt] Matplotlib pyplot module
 # 
 # @return dict Chart execution status
-def DuplicatedValuesCht(
+def DuplicatedCht(
   pDf: pd.DataFrame,
   pCols: list,
   pCfgChart: Dict[str, any],
@@ -667,7 +669,8 @@ def DuplicatedValuesCht(
 def PlotSalesAnalytics(
   pCols: list,
   pCfgChart: Dict[str, any],
-  pChartType: Literal['scatter', 'hist', 'strip', 'line', 'bar', 'diff', 'qty', 'dupl'] = 'scatter',
+  # pChartType: Literal['scatter', 'hist', 'strip', 'line', 'bar', 'diff', 'qty', 'dupl'] = 'scatter',
+  pChartType: ChartType = 'scatter',
   pDf: pd.DataFrame = None
 ) -> Dict[str, any]:
   try:
@@ -675,24 +678,31 @@ def PlotSalesAnalytics(
     
     sns.set_theme(style='whitegrid')
     
-    if 'scatter' == pChartType:
-      res = ScatterCht(pDf, pCols, pCfgChart, plt)
-    elif 'hist' == pChartType:
-      res = HistogramCht(pDf, pCols, pCfgChart, plt)
-    elif 'strip' == pChartType:
-      res = StripCht(pDf, pCols, pCfgChart, plt)
-    elif 'line' == pChartType:
-      res = LineCht(pDf, pCols, pCfgChart, plt)
-    elif 'bar' == pChartType:
-      res = BarCht(pDf, pCols, pCfgChart, plt)
-    elif 'diff' == pChartType:
-      res = DifferenceCht(pDf, pCols, pCfgChart, plt)
-    elif 'qty' == pChartType:
-      res = QualitySummaryCht(pCols, pCfgChart, plt)
-    elif 'dupl' == pChartType:
-      res = DuplicatedValuesCht(pDf, pCols, pCfgChart, plt)
+    # if 'scatter' == pChartType:
+    #   res = ScatterCht(pDf, pCols, pCfgChart, plt)
+    # elif 'hist' == pChartType:
+    #   res = HistogramCht(pDf, pCols, pCfgChart, plt)
+    # elif 'strip' == pChartType:
+    #   res = StripCht(pDf, pCols, pCfgChart, plt)
+    # elif 'line' == pChartType:
+    #   res = LineCht(pDf, pCols, pCfgChart, plt)
+    # elif 'bar' == pChartType:
+    #   res = BarCht(pDf, pCols, pCfgChart, plt)
+    # elif 'diff' == pChartType:
+    #   res = DifferenceCht(pDf, pCols, pCfgChart, plt)
+    # elif 'qty' == pChartType:
+    #   res = QualityCht(pDf, pCols, pCfgChart, plt)
+    # elif 'dupl' == pChartType:
+    #   res = DuplicatedCht(pDf, pCols, pCfgChart, plt)
+    # else:
+    #   raise Exception(f"Unsupported chart type: '{pChartType}'. Use 'scatter', 'hist', 'strip', or 'line'.")
+
+    chartFunction:str = globals().get(f"{pChartType.capitalize()}Cht")
+
+    if callable(chartFunction):
+      res = chartFunction(pDf, pCols, pCfgChart, plt)
     else:
-      raise Exception(f"Unsupported chart type: '{pChartType}'. Use 'scatter', 'hist', 'strip', or 'line'.")
+      raise Exception(f"Unsupported chart type: <'{pChartType}'>.")
 
     if not res["bOk"]: 
       raise Exception(res)
@@ -711,34 +721,3 @@ def PlotSalesAnalytics(
       }
     }
   
-# AnomaliesSummaryCht
-# -------------------
-# Renders a categorical bar plot summarizing the volume of errors found across audit categories.
-#
-# @param dict pErrorsDict Dictionary containing category names as keys and error counts as values.
-# @return None
-def AnomaliesSummaryCht(pErrorsDict: dict) -> None:
-  categories = list(pErrorsDict.keys())
-  counts = list(pErrorsDict.values())
-  
-  fig, axes = plt.subplots(figsize=(10, 5))
-  
-  sns.barplot(x=categories, y=counts, ax=ax, palette='mako')
-  
-  axes.set_title('Audit Anomalies Summary by Category', fontsize=12, fontweight='bold')
-  axes.set_xlabel('Anomaly Category')
-  axes.set_ylabel('Number of Invalid Records')
-  
-  # Annotate numeric values on top of each bar
-  for p in axes.patches:
-    axes.annotate(
-      f'{int(p.get_height())}', 
-      (p.get_x() + p.get_width() / 2., p.get_height()), 
-      ha='center', va='center', 
-      xytext=(0, 5), 
-      textcoords='offset points',
-      fontweight='bold'
-    )
-      
-  plt.tight_layout()
-  plt.show()
