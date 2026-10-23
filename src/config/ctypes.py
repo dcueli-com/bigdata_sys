@@ -1,5 +1,5 @@
 # =============================================================================
-# @version     1.0.0
+# @version     1.2.0
 # @author      dcueli 
 # @date        2026-10-22
 # @engine      CPython
@@ -14,6 +14,7 @@
 # =============================================================================
 from typing import Literal, TypeAlias
 
+# Types of chart to use
 ChartType: TypeAlias = Literal[
   'scatter',
   'histogram',
@@ -23,4 +24,37 @@ ChartType: TypeAlias = Literal[
   'difference',
   'quality',
   'duplicated'
+]
+
+# Data cleaning pipeline steps
+CleanStep: TypeAlias = Literal[
+  '2_nulls',
+  '3_duplicates',
+  '4_totals_signs',
+  '5_dates',
+  '6_outliers'
+]
+
+# Identified data quality issue categories
+IssueType: TypeAlias = Literal[
+  'null_critical',
+  'null_cantidad',
+  'null_precio_unitario',
+  'null_total',
+  'null_multiple_numeric',
+  'duplicate_row',
+  'negative_value',
+  'zero_value',
+  'total_mismatch',
+  'invalid_date',
+  'outlier_cantidad',
+  'outlier_precio_unitario',
+  'outlier_both'
+]
+
+# Resolution actions applied to affected rows
+IssueAction: TypeAlias = Literal[
+  'deleted',
+  'imputed',
+  'corrected'
 ]

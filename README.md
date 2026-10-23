@@ -20,15 +20,36 @@ bigdata_sys/
 |   |   |   |   ├── data/
 |   |   |   |   ├── notebooks/
 |   |   |   |   └── scripts/
+|   |   |   |   
 |   |   |   └── lesson_02/
 |   |   |       ├── data/
+|   |   |       |   ├── ventas_con_problemas.csv
+|   |   |       |   ├── ventas_con_problemas.xlsm
+|   |   |       |   ├── ventas_con_problemas.xlsx
+|   |   |       |   └── ventas_limpias.csv
 |   |   |       ├── notebooks/
+|   |   |       |   ├── 2_5_1_analysing_dataset.ipynb
+|   |   |       |   └── 2_5_2_cleaning_dataset.ipynb
+|   |   |       |
 |   |   |       └── scripts/
+|   |   |           ├── 2_1_DDL_DML.sql
+|   |   |           ├── 2_5_1_analysing_dataset.py
+|   |   |           └── 2_5_1_analysing_dataset.py
 |   |   |
 |   |   ├── reports/ [.gitignore]
 |   |   └── temp/
 |   | 
 |   ├── config/
+|   |   ├── __init__.py
+|   |   ├── ctypes.py
+|   |   ├── globals.py
+|   |   └── paths.py
+|   |   
+|   ├── helpers/
+|   |   ├── charts.py
+|   |   ├── console.py
+|   |   └── validations.py
+|   | 
 |   └── lessons/
 |
 ├── .gitignore

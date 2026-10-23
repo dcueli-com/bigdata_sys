@@ -30,9 +30,12 @@ import seaborn as sns
 
 # MODULES
 # ========
-# System modules
+# System
 # --------------
 from typing import Dict
+
+# Custom types
+# --------------
 from src.config.ctypes import ChartType
 
 # Custom libraries
