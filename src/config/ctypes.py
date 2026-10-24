@@ -30,7 +30,7 @@ ChartType: TypeAlias = Literal[
 CleanStep: TypeAlias = Literal[
   '2_nulls',
   '3_duplicates',
-  '4_totals_signs',
+  '4_invalid_numerics',
   '5_dates',
   '6_outliers'
 ]
