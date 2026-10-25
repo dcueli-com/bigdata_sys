@@ -1,119 +1,44 @@
-﻿fecha,producto,cantidad,precio_unitario,total
-,Monitor 24 pulgadas,1,114.18,114.18
-,Cargador rapido,6,37.74,226.44
-,Monitor 24 pulgadas,5,193.91,969.55
-,Altavoz portatil,8,111.84,894.72
-,Cargador rapido,2,15.47,30.94
-2026-10-07,,5,13.99,69.95
-2026-10-17,,2,222.89,445.78
-2026-09-22,,2,40.41,80.82
-2026-10-15,,5,21.10,105.50
-2026-10-14,,2,87.23,174.46
-2026-10-07,Teclado mecanico,,103.59,310.77
-2026-09-22,Auriculares Bluetooth,,95.82,95.82
-2026-10-11,Webcam HD,,24.36,24.36
-2026-10-12,Disco SSD 1TB,,140.97,281.94
-2026-10-02,Disco SSD 1TB,,135.78,271.56
-2026-10-04,Cargador rapido,1,,36.46
-2026-10-12,Altavoz portatil,3,,128.94
-2026-10-01,Auriculares Bluetooth,1,,28.44
-2026-09-30,Monitor 24 pulgadas,1,,106.14
-2026-10-13,Hub USB,2,,102.56
-2026-10-15,Altavoz portatil,1,110.04,
-2026-10-05,Raton inalambrico,1,36.52,
-2026-10-02,Funda tablet,1,26.56,
-2026-10-08,Cargador rapido,2,41.70,
-2026-09-27,Disco SSD 1TB,2,132.97,
-2026-02-30,Funda tablet,2,30.63,61.26
-2026-13-10,Teclado mecanico,1,102.61,102.61
-2026-10-45,Cargador rapido,5,30.62,153.10
-no_es_fecha,Raton inalambrico,6,53.73,322.38
-31/02/2026,Disco SSD 1TB,3,98.27,294.81
-2026-00-12,Soporte portatil,2,42.26,84.52
-ayer,Cable USB-C,1,11.25,11.25
-2026-09-31,Raton inalambrico,1,18.12,18.12
-2026/15/03,Altavoz portatil,5,101.72,508.60
-2026-10-00,Altavoz portatil,1,92.06,92.06
-2026-10-99,Webcam HD,3,56.38,169.14
-2026-09-00,Soporte portatil,1,24.63,24.63
-2026-18-10,Altavoz portatil,2,43.16,86.32
-2026-10-08,Raton inalambrico,-2,36.76,-73.52
-2026-09-29,Webcam HD,-1,78.83,-78.83
-2026-10-11,Hub USB,-3,61.48,-184.44
-2026-10-11,Monitor 24 pulgadas,-1,123.16,-123.16
-2026-10-09,Funda tablet,-3,34.13,-102.39
-2026-09-27,Soporte portatil,-1,45.54,-45.54
-2026-10-06,Cable USB-C,-1,5.87,-5.87
-2026-09-23,Cargador rapido,-1,40.34,-40.34
-2026-10-10,Hub USB,-4,54.00,-216.00
-2026-10-11,Auriculares Bluetooth,-6,95.99,-575.94
-2026-10-05,Teclado mecanico,-1,91.60,-91.60
-2026-09-27,Hub USB,3,-49.13,-147.39
-2026-10-01,Raton inalambrico,1,-49.02,-49.02
-2026-10-10,Soporte portatil,3,-46.82,-140.46
-2026-10-12,Raton inalambrico,1,-32.94,-32.94
-2026-10-11,Raton inalambrico,3,-44.54,-133.62
-2026-10-07,Raton inalambrico,6,-15.05,-90.30
-2026-10-04,Funda tablet,1,-10.82,-10.82
-2026-10-05,Auriculares Bluetooth,1,-88.93,-88.93
-2026-09-28,Raton inalambrico,1,-52.38,-52.38
-2026-09-30,Hub USB,1,-20.23,-20.23
-2026-09-19,Teclado mecanico,3,69.24,-207.72
-2026-09-25,Disco SSD 1TB,3,120.63,-361.89
-2026-09-22,Funda tablet,3,34.92,-104.76
-2026-10-16,Altavoz portatil,1,54.69,-54.69
-2026-09-19,Altavoz portatil,4,39.26,-157.04
-2026-10-08,Teclado mecanico,4,98.12,-392.48
-2026-09-27,Hub USB,3,16.89,-50.67
-2026-10-03,Raton inalambrico,2,41.59,-83.18
-2026-10-01,Teclado mecanico,3,52.02,-156.06
-2026-10-14,Teclado mecanico,1,107.74,62.83
-2026-10-03,Monitor 24 pulgadas,1,109.32,93.80
-2026-10-10,Auriculares Bluetooth,4,86.47,311.07
-2026-10-03,Funda tablet,1,27.84,2.15
-2026-10-14,Cable USB-C,4,10.67,67.22
-2026-10-03,Auriculares Bluetooth,1,41.98,59.66
-2026-10-12,Webcam HD,2,77.47,191.19
-2026-09-28,Soporte portatil,1,15.46,38.18
-2026-10-12,Webcam HD,2,71.53,182.15
-2026-10-14,Webcam HD,5,77.02,352.68
-2026-09-23,Webcam HD,4,77.08,280.05
-2026-10-06,Monitor 24 pulgadas,2,216.50,468.76
-2026-10-09,Monitor 24 pulgadas,2,247.86,466.16
-2026-10-15,Raton inalambrico,2,18.42,29.22
-2026-10-08,Disco SSD 1TB,3,112.12,313.41
-2026-10-02,Monitor 24 pulgadas,2,146.09,309.41
-2026-10-03,Cargador rapido,1,21.02,65.95
-2026-09-20,Cable USB-C,4,9.16,59.49
-2026-10-13,Auriculares Bluetooth,2,89.90,208.06
-2026-09-27,Raton inalambrico,2,52.97,81.77
-2026-10-04,Cable USB-C,2,12.39,42.79
-2026-09-19,Monitor 24 pulgadas,1,140.25,173.78
-2026-10-14,Funda tablet,4,31.42,148.55
-2026-09-24,Teclado mecanico,2,82.97,198.44
-2026-09-26,Cable USB-C,4,12.49,21.81
-2026-09-19,Soporte portatil,211,40.03,8446.33
-2026-10-07,Teclado mecanico,794,44.07,34991.58
-2026-09-29,Webcam HD,304,69.97,21270.88
-2026-09-26,Funda tablet,315,18.08,5695.20
-2026-10-15,Altavoz portatil,845,117.16,99000.20
-2026-10-10,Raton inalambrico,230,17.74,4080.20
-2026-10-07,Monitor 24 pulgadas,160,189.28,30284.80
-2026-09-25,Disco SSD 1TB,394,107.57,42382.58
-2026-10-12,Cargador rapido,3,5594.00,16782.00
-2026-10-08,Raton inalambrico,2,11838.00,23676.00
-2026-09-19,Altavoz portatil,1,10622.00,10622.00
-2026-09-29,Teclado mecanico,1,11922.00,11922.00
-2026-10-05,Auriculares Bluetooth,2,3466.00,6932.00
-2026-09-30,Funda tablet,4,3483.00,13932.00
-2026-10-09,Raton inalambrico,1,3330.00,3330.00
-2026-09-19,Funda tablet,1,3498.00,3498.00
-2026-09-19,Monitor 24 pulgadas,176,3735.00,657360.00
-2026-09-29,Monitor 24 pulgadas,103,3574.00,368122.00
-2026-10-07,Auriculares Bluetooth,250,3338.00,834500.00
-2026-10-04,Soporte portatil,224,2342.00,524608.00
-2026-10-05,Webcam HD,240,2954.00,708960.00
-2026-09-23,Funda tablet,162,2065.00,334530.00
+fecha,producto,cantidad,precio_unitario,total
+2026-10-07,Teclado mecanico,3,103.59,310.77
+2026-09-22,Auriculares Bluetooth,1,95.82,95.82
+2026-10-11,Webcam HD,1,24.36,24.36
+2026-10-12,Disco SSD 1TB,2,140.97,281.94
+2026-10-02,Disco SSD 1TB,2,135.78,271.56
+2026-10-04,Cargador rapido,1,36.46,36.46
+2026-10-12,Altavoz portatil,3,42.98,128.94
+2026-10-01,Auriculares Bluetooth,1,28.44,28.44
+2026-09-30,Monitor 24 pulgadas,1,106.14,106.14
+2026-10-13,Hub USB,2,51.28,102.56
+2026-10-15,Altavoz portatil,1,110.04,110.04
+2026-10-05,Raton inalambrico,1,36.52,36.52
+2026-10-02,Funda tablet,1,26.56,26.56
+2026-10-08,Cargador rapido,2,41.7,83.4
+2026-09-27,Disco SSD 1TB,2,132.97,265.94
+2026-10-14,Teclado mecanico,1,107.74,107.74
+2026-10-03,Monitor 24 pulgadas,1,109.32,109.32
+2026-10-10,Auriculares Bluetooth,4,86.47,345.88
+2026-10-03,Funda tablet,1,27.84,27.84
+2026-10-14,Cable USB-C,4,10.67,42.68
+2026-10-03,Auriculares Bluetooth,1,41.98,41.98
+2026-10-12,Webcam HD,2,77.47,154.94
+2026-09-28,Soporte portatil,1,15.46,15.46
+2026-10-12,Webcam HD,2,71.53,143.06
+2026-10-14,Webcam HD,5,77.02,385.1
+2026-09-23,Webcam HD,4,77.08,308.32
+2026-10-06,Monitor 24 pulgadas,2,216.5,433.0
+2026-10-09,Monitor 24 pulgadas,2,247.86,495.72
+2026-10-15,Raton inalambrico,2,18.42,36.84
+2026-10-08,Disco SSD 1TB,3,112.12,336.36
+2026-10-02,Monitor 24 pulgadas,2,146.09,292.18
+2026-10-03,Cargador rapido,1,21.02,21.02
+2026-09-20,Cable USB-C,4,9.16,36.64
+2026-10-13,Auriculares Bluetooth,2,89.9,179.8
+2026-09-27,Raton inalambrico,2,52.97,105.94
+2026-10-04,Cable USB-C,2,12.39,24.78
+2026-09-19,Monitor 24 pulgadas,1,140.25,140.25
+2026-10-14,Funda tablet,4,31.42,125.68
+2026-09-24,Teclado mecanico,2,82.97,165.94
+2026-09-26,Cable USB-C,4,12.49,49.96
 2026-09-19,Disco SSD 1TB,3,115.34,346.02
 2026-10-08,Teclado mecanico,2,103.16,206.32
 2026-09-24,Funda tablet,2,11.14,22.28
@@ -121,7 +46,6 @@ ayer,Cable USB-C,1,11.25,11.25
 2026-10-10,Disco SSD 1TB,2,103.23,206.46
 2026-10-17,Webcam HD,2,68.97,137.94
 2026-10-11,Funda tablet,2,23.16,46.32
-2026-10-17,Webcam HD,2,68.97,137.94
 2026-10-09,Teclado mecanico,1,61.97,61.97
 2026-10-09,Disco SSD 1TB,3,146.72,440.16
 2026-10-10,Auriculares Bluetooth,1,65.43,65.43
@@ -132,9 +56,9 @@ ayer,Cable USB-C,1,11.25,11.25
 2026-10-11,Webcam HD,2,44.13,88.26
 2026-09-24,Hub USB,1,52.53,52.53
 2026-10-13,Cable USB-C,1,16.25,16.25
-2026-09-20,Auriculares Bluetooth,5,36.46,182.30
+2026-09-20,Auriculares Bluetooth,5,36.46,182.3
 2026-10-15,Raton inalambrico,1,11.76,11.76
-2026-10-16,Cable USB-C,1,13.20,13.20
+2026-10-16,Cable USB-C,1,13.2,13.2
 2026-09-21,Cable USB-C,2,5.04,10.08
 2026-10-06,Funda tablet,3,26.62,79.86
 2026-10-04,Monitor 24 pulgadas,4,149.66,598.64
@@ -145,14 +69,13 @@ ayer,Cable USB-C,1,11.25,11.25
 2026-10-08,Auriculares Bluetooth,1,63.27,63.27
 2026-10-17,Altavoz portatil,2,49.27,98.54
 2026-09-22,Hub USB,1,56.46,56.46
-2026-09-29,Soporte portatil,2,20.80,41.60
+2026-09-29,Soporte portatil,2,20.8,41.6
 2026-09-21,Webcam HD,8,67.47,539.76
-2026-10-12,Monitor 24 pulgadas,4,127.06,508.24
 2026-09-19,Altavoz portatil,4,76.26,305.04
 2026-10-08,Disco SSD 1TB,2,65.12,130.24
 2026-09-28,Funda tablet,4,29.39,117.56
 2026-10-07,Cargador rapido,2,27.93,55.86
-2026-10-02,Auriculares Bluetooth,1,91.40,91.40
+2026-10-02,Auriculares Bluetooth,1,91.4,91.4
 2026-10-12,Raton inalambrico,2,48.18,96.36
 2026-10-05,Raton inalambrico,1,39.42,39.42
 2026-09-20,Altavoz portatil,1,61.65,61.65
@@ -160,85 +83,81 @@ ayer,Cable USB-C,1,11.25,11.25
 2026-10-08,Cable USB-C,4,11.31,45.24
 2026-09-26,Funda tablet,4,31.06,124.24
 2026-09-21,Webcam HD,1,56.16,56.16
-2026-10-12,Raton inalambrico,1,52.80,52.80
+2026-10-12,Raton inalambrico,1,52.8,52.8
 2026-10-03,Raton inalambrico,1,28.82,28.82
 2026-09-29,Teclado mecanico,3,106.74,320.22
 2026-09-19,Monitor 24 pulgadas,2,133.26,266.52
-2026-10-13,Monitor 24 pulgadas,4,146.85,587.40
+2026-10-13,Monitor 24 pulgadas,4,146.85,587.4
 2026-10-17,Cable USB-C,2,7.08,14.16
 2026-10-17,Hub USB,1,49.51,49.51
 2026-10-03,Cable USB-C,1,6.27,6.27
 2026-10-04,Teclado mecanico,2,106.07,212.14
 2026-09-30,Teclado mecanico,1,49.47,49.47
-2026-09-23,Teclado mecanico,3,99.30,297.90
-2026-09-25,Disco SSD 1TB,8,117.05,936.40
+2026-09-23,Teclado mecanico,3,99.3,297.9
+2026-09-25,Disco SSD 1TB,8,117.05,936.4
 2026-09-20,Teclado mecanico,1,83.13,83.13
 2026-10-09,Hub USB,1,47.41,47.41
-2026-10-10,Disco SSD 1TB,2,103.23,206.46
 2026-09-21,Auriculares Bluetooth,5,38.23,191.15
-2026-09-26,Monitor 24 pulgadas,1,182.90,182.90
+2026-09-26,Monitor 24 pulgadas,1,182.9,182.9
 2026-10-15,Auriculares Bluetooth,3,75.47,226.41
 2026-09-29,Soporte portatil,1,34.34,34.34
 2026-10-11,Disco SSD 1TB,3,148.88,446.64
-2026-09-20,Raton inalambrico,2,24.85,49.70
-2026-09-26,Disco SSD 1TB,6,104.65,627.90
-2026-10-01,Raton inalambrico,5,52.46,262.30
+2026-09-20,Raton inalambrico,2,24.85,49.7
+2026-09-26,Disco SSD 1TB,6,104.65,627.9
+2026-10-01,Raton inalambrico,5,52.46,262.3
 2026-09-23,Webcam HD,3,51.35,154.05
-2026-09-26,Cargador rapido,2,39.30,78.60
+2026-09-26,Cargador rapido,2,39.3,78.6
 2026-10-01,Cargador rapido,2,20.06,40.12
 2026-10-12,Soporte portatil,1,27.25,27.25
 2026-09-24,Auriculares Bluetooth,1,87.05,87.05
 2026-10-03,Soporte portatil,3,17.22,51.66
 2026-09-19,Monitor 24 pulgadas,2,132.63,265.26
 2026-09-22,Altavoz portatil,1,34.88,34.88
-2026-10-17,Webcam HD,2,68.97,137.94
 2026-09-25,Cargador rapido,4,27.48,109.92
 2026-10-13,Soporte portatil,4,30.76,123.04
 2026-10-06,Webcam HD,2,23.76,47.52
 2026-10-13,Disco SSD 1TB,7,79.03,553.21
-2026-10-07,Cargador rapido,6,31.15,186.90
+2026-10-07,Cargador rapido,6,31.15,186.9
 2026-09-28,Funda tablet,3,30.26,90.78
 2026-09-22,Webcam HD,7,47.32,331.24
 2026-09-19,Webcam HD,1,59.93,59.93
 2026-09-23,Soporte portatil,1,39.89,39.89
 2026-10-12,Funda tablet,1,23.24,23.24
-2026-10-10,Funda tablet,7,9.60,67.20
+2026-10-10,Funda tablet,7,9.6,67.2
 2026-09-28,Teclado mecanico,1,92.35,92.35
 2026-10-02,Funda tablet,2,27.43,54.86
 2026-10-01,Raton inalambrico,1,18.22,18.22
 2026-10-09,Webcam HD,3,72.35,217.05
-2026-09-30,Auriculares Bluetooth,3,65.90,197.70
-2026-09-30,Cargador rapido,2,15.60,31.20
+2026-09-30,Auriculares Bluetooth,3,65.9,197.7
+2026-09-30,Cargador rapido,2,15.6,31.2
 2026-10-02,Auriculares Bluetooth,4,60.58,242.32
-2026-09-30,Soporte portatil,1,43.40,43.40
+2026-09-30,Soporte portatil,1,43.4,43.4
 2026-10-10,Cargador rapido,1,24.72,24.72
 2026-09-24,Hub USB,2,17.51,35.02
-2026-10-10,Auriculares Bluetooth,4,51.20,204.80
-2026-09-20,Auriculares Bluetooth,2,58.90,117.80
+2026-10-10,Auriculares Bluetooth,4,51.2,204.8
+2026-09-20,Auriculares Bluetooth,2,58.9,117.8
 2026-10-17,Auriculares Bluetooth,2,25.77,51.54
-2026-10-12,Monitor 24 pulgadas,4,127.06,508.24
 2026-10-13,Funda tablet,3,18.16,54.48
-2026-10-10,Altavoz portatil,3,110.60,331.80
+2026-10-10,Altavoz portatil,3,110.6,331.8
 2026-10-14,Monitor 24 pulgadas,7,159.39,1115.73
 2026-09-30,Teclado mecanico,2,74.07,148.14
 2026-10-18,Teclado mecanico,3,97.98,293.94
 2026-10-13,Soporte portatil,2,32.96,65.92
 2026-09-25,Raton inalambrico,3,10.71,32.13
-2026-09-23,Monitor 24 pulgadas,4,120.45,481.80
+2026-09-23,Monitor 24 pulgadas,4,120.45,481.8
 2026-09-24,Cable USB-C,4,5.37,21.48
 2026-10-05,Soporte portatil,1,42.46,42.46
 2026-09-30,Auriculares Bluetooth,4,53.68,214.72
 2026-09-21,Cargador rapido,2,27.56,55.12
 2026-10-06,Webcam HD,1,28.72,28.72
-2026-09-21,Webcam HD,1,25.90,25.90
+2026-09-21,Webcam HD,1,25.9,25.9
 2026-09-19,Funda tablet,1,30.24,30.24
 2026-09-27,Webcam HD,2,22.47,44.94
-2026-10-15,Funda tablet,1,29.20,29.20
+2026-10-15,Funda tablet,1,29.2,29.2
 2026-10-06,Auriculares Bluetooth,1,73.17,73.17
-2026-10-06,Raton inalambrico,5,48.04,240.20
+2026-10-06,Raton inalambrico,5,48.04,240.2
 2026-10-15,Webcam HD,2,25.09,50.18
 2026-09-24,Monitor 24 pulgadas,1,151.81,151.81
-2026-10-10,Disco SSD 1TB,2,103.23,206.46
 2026-10-18,Raton inalambrico,2,25.62,51.24
 2026-10-10,Soporte portatil,4,12.06,48.24
 2026-09-20,Cable USB-C,6,16.06,96.36
@@ -250,45 +169,43 @@ ayer,Cable USB-C,1,11.25,11.25
 2026-10-07,Altavoz portatil,1,72.52,72.52
 2026-10-01,Altavoz portatil,1,81.98,81.98
 2026-09-30,Soporte portatil,3,15.55,46.65
-2026-09-22,Funda tablet,8,19.00,152.00
+2026-09-22,Funda tablet,8,19.0,152.0
 2026-09-21,Hub USB,1,35.61,35.61
 2026-09-20,Altavoz portatil,2,103.87,207.74
-2026-10-06,Webcam HD,2,56.65,113.30
+2026-10-06,Webcam HD,2,56.65,113.3
 2026-09-20,Funda tablet,1,34.61,34.61
 2026-10-09,Hub USB,2,60.76,121.52
-2026-10-04,Raton inalambrico,3,42.80,128.40
+2026-10-04,Raton inalambrico,3,42.8,128.4
 2026-09-29,Cargador rapido,1,22.37,22.37
 2026-10-03,Teclado mecanico,7,104.34,730.38
 2026-09-21,Funda tablet,1,14.85,14.85
 2026-09-24,Hub USB,2,41.68,83.36
-2026-09-24,Funda tablet,4,19.40,77.60
-2026-10-07,Disco SSD 1TB,2,88.45,176.90
+2026-09-24,Funda tablet,4,19.4,77.6
+2026-10-07,Disco SSD 1TB,2,88.45,176.9
 2026-10-18,Altavoz portatil,1,99.99,99.99
-2026-10-12,Monitor 24 pulgadas,4,127.06,508.24
 2026-10-17,Altavoz portatil,2,39.18,78.36
 2026-09-24,Auriculares Bluetooth,2,66.27,132.54
 2026-09-21,Monitor 24 pulgadas,3,211.92,635.76
 2026-10-10,Cable USB-C,1,13.36,13.36
-2026-10-13,Raton inalambrico,3,21.90,65.70
+2026-10-13,Raton inalambrico,3,21.9,65.7
 2026-09-24,Webcam HD,2,50.56,101.12
 2026-10-11,Cable USB-C,2,9.74,19.48
-2026-10-09,Altavoz portatil,2,64.45,128.90
-2026-10-07,Webcam HD,1,25.50,25.50
+2026-10-09,Altavoz portatil,2,64.45,128.9
+2026-10-07,Webcam HD,1,25.5,25.5
 2026-10-12,Auriculares Bluetooth,1,30.73,30.73
 2026-10-17,Altavoz portatil,2,117.07,234.14
 2026-10-03,Funda tablet,3,18.93,56.79
-2026-10-16,Funda tablet,4,12.40,49.60
+2026-10-16,Funda tablet,4,12.4,49.6
 2026-09-27,Cable USB-C,1,15.58,15.58
 2026-09-21,Webcam HD,4,40.28,161.12
 2026-10-15,Disco SSD 1TB,6,94.22,565.32
-2026-10-08,Teclado mecanico,2,103.16,206.32
 2026-09-24,Cable USB-C,2,17.53,35.06
 2026-10-12,Teclado mecanico,3,50.89,152.67
 2026-10-15,Teclado mecanico,6,95.44,572.64
 2026-09-27,Monitor 24 pulgadas,2,176.39,352.78
 2026-09-25,Soporte portatil,1,31.41,31.41
 2026-10-03,Raton inalambrico,1,51.32,51.32
-2026-10-15,Auriculares Bluetooth,3,42.10,126.30
+2026-10-15,Auriculares Bluetooth,3,42.1,126.3
 2026-10-15,Hub USB,5,23.77,118.85
 2026-10-10,Altavoz portatil,6,92.04,552.24
 2026-10-05,Webcam HD,1,66.59,66.59
@@ -300,22 +217,18 @@ ayer,Cable USB-C,1,11.25,11.25
 2026-10-04,Disco SSD 1TB,1,106.73,106.73
 2026-09-27,Auriculares Bluetooth,1,53.65,53.65
 2026-10-13,Altavoz portatil,2,55.56,111.12
-2026-10-08,Teclado mecanico,2,103.16,206.32
 2026-10-12,Funda tablet,1,11.18,11.18
 2026-10-02,Auriculares Bluetooth,3,61.92,185.76
 2026-09-29,Altavoz portatil,8,107.18,857.44
 2026-10-07,Disco SSD 1TB,1,130.25,130.25
 2026-09-22,Webcam HD,1,53.69,53.69
 2026-10-13,Cargador rapido,1,36.88,36.88
-2026-10-09,Cargador rapido,2,30.30,60.60
+2026-10-09,Cargador rapido,2,30.3,60.6
 2026-09-29,Monitor 24 pulgadas,2,168.08,336.16
 2026-09-22,Cable USB-C,1,17.47,17.47
 2026-09-20,Funda tablet,2,13.02,26.04
 2026-10-03,Disco SSD 1TB,1,88.18,88.18
-2026-10-08,Auriculares Bluetooth,4,25.95,103.80
-2026-10-10,Auriculares Bluetooth,1,88.60,88.60
-2026-09-24,Funda tablet,2,11.14,22.28
+2026-10-08,Auriculares Bluetooth,4,25.95,103.8
+2026-10-10,Auriculares Bluetooth,1,88.6,88.6
 2026-10-17,Auriculares Bluetooth,1,90.03,90.03
-2026-09-21,Cable USB-C,4,10.30,41.20
-2026-10-17,Webcam HD,2,68.97,137.94
-2026-10-17,Webcam HD,2,68.97,137.94
+2026-09-21,Cable USB-C,4,10.3,41.2
