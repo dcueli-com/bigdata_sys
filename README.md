@@ -36,6 +36,13 @@ bigdata_sys/
 |   |   |           ├── 2_5_1_analysing_dataset.py
 |   |   |           └── 2_5_1_analysing_dataset.py
 |   |   |
+|   |   └── RA2/
+|   |   |   └── lesson_03/
+|   |   |       └── data/
+|   |   |           ├── iris.csv
+|   |   |           ├── iris.xlsx
+|   |   |           └── KIPs-area-gestion-hospitalaria.xlsx
+|   |   |
 |   |   ├── reports/ [.gitignore]
 |   |   └── temp/
 |   | 
