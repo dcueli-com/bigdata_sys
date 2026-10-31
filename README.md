@@ -39,9 +39,15 @@ bigdata_sys/
 |   |   └── RA2/
 |   |   |   └── lesson_03/
 |   |   |       └── data/
-|   |   |           ├── iris.csv
-|   |   |           ├── iris.xlsx
-|   |   |           └── KIPs-area-gestion-hospitalaria.xlsx
+|   |   |       |   ├── iris.csv
+|   |   |       |   ├── iris.xlsx
+|   |   |       |   ├── KIPs-area-gestion-hospitalaria.xlsx
+|   |   |       |   └── Ventas_Electronica_PowerBI_2022_2026.xlsx 
+|   |   |       ├── notebooks/
+|   |   |       |   └── 3_3_iris_dataset.ipynb
+|   |   |       |
+|   |   |       └── scripts/
+|   |   |           └── 3_3_iris_dataset.py
 |   |   |
 |   |   ├── reports/ [.gitignore]
 |   |   └── temp/
