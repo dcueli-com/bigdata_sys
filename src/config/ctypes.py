@@ -12,7 +12,7 @@
 # ---------
 # Provides custom types for developments.
 # =============================================================================
-from typing import Literal, TypeAlias
+from typing import Literal, TypeAlias, TypedDict
 
 # Types of chart to use
 ChartType: TypeAlias = Literal[
@@ -58,3 +58,26 @@ IssueAction: TypeAlias = Literal[
   'imputed',
   'corrected'
 ]
+
+# Supported Big Data processing libraries
+BigDataLib: TypeAlias = Literal[
+  'pandas',
+  'polars',
+  'pyspark'
+]
+
+# ErrorInfo
+# ---------
+# Inner dictionary structure for standardized error details.
+class ErrorInfo(TypedDict):
+  code: int
+  whre: str
+  mssg: str
+
+# ErrorResponse
+# -------------
+# Standardized generic error object type returned or raised across modules.
+class ErrorResponse(TypedDict):
+  bOk: bool
+  err: ErrorInfo
+
