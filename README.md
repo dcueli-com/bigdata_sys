@@ -49,6 +49,19 @@ bigdata_sys/
 |   |   |       └── scripts/
 |   |   |           └── 3_3_iris_dataset.py
 |   |   |
+|   |   └── RA3/
+|   |   |   └── lesson_04/
+|   |   |       └── data/
+|   |   |       |   ├── 
+|   |   |       |   └──  
+|   |   |       ├── notebooks/
+|   |   |       |   ├── 
+|   |   |       |   └──  
+|   |   |       |
+|   |   |       └── scripts/
+|   |   |           ├── 
+|   |   |           └──  
+|   |   |
 |   |   ├── reports/ [.gitignore]
 |   |   └── temp/
 |   | 
