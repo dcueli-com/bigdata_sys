@@ -77,7 +77,7 @@ from src.config.cerror import CErr
 
 import src.config.ctypes as ctp
 importlib.reload(ctp)
-from src.config.ctypes import FilterOp, BigDataLib
+from src.config.ctypes import BigDataLib, FilterOp, AggFunc
 
 # Helpers functions
 # -----------------
@@ -244,6 +244,77 @@ class PandasEngine:
         e
       )
 
+  # SortData
+  # --------
+  # Sorts a Pandas DataFrame by one or multiple columns in ascending or descending order.
+  #
+  # @param pd.DataFrame      pDf         Source Pandas DataFrame.
+  # @param list[str]         pSortByCols List of column names to sort by.
+  # @param bool | list[bool] pAscending  Sort direction(s) (True for ascending, False for descending).
+  # 
+  # @throws Exception Standardized ErrorResponse dictionary on failure.
+  # @return Dict[str, any] Standardized response dictionary with 'bOk' and sorted 'data'.
+  @staticmethod
+  def SortData(
+    pDf: pd.DataFrame,
+    pSortByCols: list[str],
+    pAscending: bool | list[bool] = True
+  ) -> Dict[str, any]:
+    try:
+      dfSorted: pd.DataFrame = pDf.sort_values(
+        by=pSortByCols,
+        ascending=pAscending
+      ).reset_index(drop=True)
+
+      return {'bOk': True, 'data': dfSorted}
+
+    except Exception as e:
+      CErr.Raise(500,
+        f"PandasEngine.{sys._getframe(0).f_code.co_name}",
+        "Error sorting Pandas DataFrame by %s: %s",
+        (str(pSortByCols), str(e)),
+        e
+      )
+
+  # AggregateData
+  # -------------
+  # Groups a Pandas DataFrame by pGroupByCols and computes pAggFunc over pAggCol.
+  #
+  # @param pd.DataFrame pDf          Source Pandas DataFrame.
+  # @param list[str]    pGroupByCols List of column names to group by.
+  # @param str          pAggCol      Target column name to aggregate.
+  # @param AggFunc      pAggFunc     Aggregation function ('count', 'sum', 'mean', 'min', 'max', 'median').
+  # @param str          pNewColName  Optional alias for the resulting aggregated column.
+  # 
+  # @throws Exception Standardized ErrorResponse dictionary on failure.
+  # @return Dict[str, any] Standardized response dictionary with 'bOk' and aggregated 'data'.
+  @staticmethod
+  def AggregateData(
+    pDf: pd.DataFrame,
+    pGroupByCols: list[str],
+    pAggCol: str,
+    pAggFunc: AggFunc,
+    pNewColName: str = ''
+  ) -> Dict[str, any]:
+    try:
+      outCol: str = pNewColName if '' != pNewColName else f"{pAggCol}_{pAggFunc}"
+
+      dfAgg: pd.DataFrame = (
+        pDf.groupby(pGroupByCols, as_index=False, sort=True)
+        .agg(**{outCol: (pAggCol, pAggFunc)})
+      )
+
+      return {'bOk': True, 'data': dfAgg}
+
+    except Exception as e:
+      CErr.Raise(500,
+        f"PandasEngine.{sys._getframe(0).f_code.co_name}",
+        "Error aggregating Pandas DataFrame by %s (%s on '%s'): %s",
+        (str(pGroupByCols), pAggFunc, pAggCol, str(e)),
+        e
+      )
+
+
 # PolarsEngine Class
 # ------------------
 # Static class implementing dataset operations using the Polars library.
@@ -395,6 +466,104 @@ class PolarsEngine:
         e
       )
 
+  # SortData
+  # --------
+  # Sorts a Polars DataFrame by one or multiple columns in ascending or descending order.
+  #
+  # @param pl.DataFrame      pDf         Source Polars DataFrame.
+  # @param list[str]         pSortByCols List of column names to sort by.
+  # @param bool | list[bool] pAscending  Sort direction(s) (True for ascending, False for descending).
+  # 
+  # @throws Exception Standardized ErrorResponse dictionary on failure.
+  # @return Dict[str, any] Standardized response dictionary with 'bOk' and sorted 'data'.
+  @staticmethod
+  def SortData(
+    pDf: pl.DataFrame,
+    pSortByCols: list[str],
+    pAscending: bool | list[bool] = True
+  ) -> Dict[str, any]:
+    try:
+      # Convert pAscending to Polars 'descending' parameter
+      bDescending: bool | list[bool] = (
+        [not bAsc for bAsc in pAscending]
+        if isinstance(pAscending, list)
+        else (not pAscending)
+      )
+
+      dfSorted: pl.DataFrame = pDf.sort(
+        by=pSortByCols,
+        descending=bDescending
+      )
+
+      return {'bOk': True, 'data': dfSorted}
+
+    except Exception as e:
+      CErr.Raise(500,
+        f"PolarsEngine.{sys._getframe(0).f_code.co_name}",
+        "Error sorting Polars DataFrame by %s: %s",
+        (str(pSortByCols), str(e)),
+        e
+      )
+
+  # AggregateData
+  # -------------
+  # Groups a Polars DataFrame by pGroupByCols and computes pAggFunc over pAggCol.
+  #
+  # @param pl.DataFrame pDf          Source Polars DataFrame.
+  # @param list[str]    pGroupByCols List of column names to group by.
+  # @param str          pAggCol      Target column name to aggregate.
+  # @param AggFunc      pAggFunc     Aggregation function ('count', 'sum', 'mean', 'min', 'max', 'median').
+  # @param str          pNewColName  Optional alias for the resulting aggregated column.
+  # 
+  # @throws Exception Standardized ErrorResponse dictionary on failure.
+  # @return Dict[str, any] Standardized response dictionary with 'bOk' and aggregated 'data'.
+  @staticmethod
+  def AggregateData(
+    pDf: pl.DataFrame,
+    pGroupByCols: list[str],
+    pAggCol: str,
+    pAggFunc: AggFunc,
+    pNewColName: str = ''
+  ) -> Dict[str, any]:
+    try:
+      outCol: str = pNewColName if '' != pNewColName else f"{pAggCol}_{pAggFunc}"
+
+      aggExpr: pl.Expr
+      if 'count' == pAggFunc:
+        aggExpr = pl.col(pAggCol).count().alias(outCol)
+      elif 'sum' == pAggFunc:
+        aggExpr = pl.col(pAggCol).sum().alias(outCol)
+      elif 'mean' == pAggFunc:
+        aggExpr = pl.col(pAggCol).mean().alias(outCol)
+      elif 'min' == pAggFunc:
+        aggExpr = pl.col(pAggCol).min().alias(outCol)
+      elif 'max' == pAggFunc:
+        aggExpr = pl.col(pAggCol).max().alias(outCol)
+      elif 'median' == pAggFunc:
+        aggExpr = pl.col(pAggCol).median().alias(outCol)
+      else:
+        CErr.Raise(400,
+          f"PolarsEngine.{sys._getframe(0).f_code.co_name}",
+          "Unsupported aggregation function: '%s'.",
+          (pAggFunc,)
+        )
+
+      dfAgg: pl.DataFrame = (
+        pDf.group_by(pGroupByCols)
+        .agg(aggExpr)
+        .sort(pGroupByCols)
+      )
+
+      return {'bOk': True, 'data': dfAgg}
+
+    except Exception as e:
+      CErr.Raise(500,
+        f"PolarsEngine.{sys._getframe(0).f_code.co_name}",
+        "Error aggregating Polars DataFrame by %s (%s on '%s'): %s",
+        (str(pGroupByCols), pAggFunc, pAggCol, str(e)),
+        e
+      )
+
 # BigDataOrchestrator
 # -------------------
 # Static orchestrator class that validates file existence and library availability,
@@ -534,6 +703,7 @@ class BigDataOrchestrator:
   # @param any        pDf          Loaded movies DataFrame.
   # @param bool       pPrintResult Whether to automatically print the console summary.
   # @param int        pPreviewRows Number of preview rows to print when pPrintResult is True.
+  
   # @throws Exception Standardized ErrorResponse dictionary on failure.
   # @return Dict[str, any] Standardized response dictionary with 'bOk', 'data', 'time', and 'lib'.
   @staticmethod
@@ -586,6 +756,7 @@ class BigDataOrchestrator:
   # @param int | float | str pFilterByVal      Target value to compare against.
   # @param bool              pPrintResult      Whether to automatically print the console summary.
   # @param int               pPreviewRows      Number of preview rows to print when pPrintResult is True.
+  # 
   # @throws Exception Standardized ErrorResponse dictionary on failure.
   # @return Dict[str, any] Standardized response dictionary with 'bOk', 'data', 'time', and 'lib'.
   @staticmethod
@@ -624,6 +795,122 @@ class BigDataOrchestrator:
       CErr.Raise(500,
         f"BigDataOrchestrator.{sys._getframe(0).f_code.co_name}",
         "Error orchestrating data filtering with '%s': %s",
+        (pLibName, str(e)),
+        e
+      )
+
+  # SortData
+  # --------
+  # Validates environment, delegates DataFrame sorting to the selected engine,
+  # measures execution time, and optionally prints the console summary.
+  #
+  # @param BigDataLib        pLibName     Target library name ('pandas', 'polars', 'pyspark').
+  # @param any               pDf          Loaded DataFrame matching the target library.
+  # @param list[str]         pSortByCols  List of column names to sort by.
+  # @param bool | list[bool] pAscending   Sort direction(s) (True for ascending, False for descending).
+  # @param bool              pPrintResult Whether to automatically print the console summary.
+  # @param int               pPreviewRows Number of preview rows to print when pPrintResult is True.
+  # 
+  # @throws Exception Standardized ErrorResponse dictionary on failure.
+  # @return Dict[str, any] Standardized response dictionary with 'bOk', 'data', 'time', and 'lib'.
+  @staticmethod
+  def SortData(
+    pLibName: BigDataLib,
+    pDf: any,
+    pSortByCols: list[str],
+    pAscending: bool | list[bool] = True,
+    pPrintResult: bool = True,
+    pPreviewRows: int = 3
+  ) -> Dict[str, any]:
+    try:
+      BigDataOrchestrator.ValidateEnvironment(pLibName)
+      resEng: Dict[str, any] = BigDataOrchestrator.GetEngine(pLibName)
+      engineClass: any = resEng['data']
+
+      # Measure execution time of the underlying engine sorting method
+      tInit: float = time.perf_counter()
+      resSort: Dict[str, any] = engineClass.SortData(pDf, pSortByCols, pAscending)
+      tEnd: float = time.perf_counter()
+
+      resSort['time'] = tEnd - tInit
+      resSort['lib'] = pLibName
+
+      if pPrintResult:
+        BigDataOrchestrator.PrintOperationResult(
+          resSort,
+          f"Data sorted by {pSortByCols}",
+          pPreviewRows
+        )
+
+      return resSort
+
+    except Exception as e:
+      CErr.Raise(500,
+        f"BigDataOrchestrator.{sys._getframe(0).f_code.co_name}",
+        "Error orchestrating data sorting with '%s': %s",
+        (pLibName, str(e)),
+        e
+      )
+
+  # AggregateData
+  # -------------
+  # Validates environment, delegates DataFrame aggregation to the selected engine,
+  # measures execution time, and optionally prints the console summary.
+  #
+  # @param BigDataLib pLibName     Target library name ('pandas', 'polars', 'pyspark').
+  # @param any        pDf          Loaded DataFrame matching the target library.
+  # @param list[str]  pGroupByCols List of column names to group by.
+  # @param str        pAggCol      Target column name to aggregate.
+  # @param AggFunc    pAggFunc     Aggregation function ('count', 'sum', 'mean', 'min', 'max', 'median').
+  # @param str        pNewColName  Optional alias for the resulting aggregated column.
+  # @param bool       pPrintResult Whether to automatically print the console summary.
+  # @param int        pPreviewRows Number of preview rows to print when pPrintResult is True.
+  # 
+  # @throws Exception Standardized ErrorResponse dictionary on failure.
+  # @return Dict[str, any] Standardized response dictionary with 'bOk', 'data', 'time', and 'lib'.
+  @staticmethod
+  def AggregateData(
+    pLibName: BigDataLib,
+    pDf: any,
+    pGroupByCols: list[str],
+    pAggCol: str,
+    pAggFunc: AggFunc,
+    pNewColName: str = '',
+    pPrintResult: bool = True,
+    pPreviewRows: int = 3
+  ) -> Dict[str, any]:
+    try:
+      BigDataOrchestrator.ValidateEnvironment(pLibName)
+      resEng: Dict[str, any] = BigDataOrchestrator.GetEngine(pLibName)
+      engineClass: any = resEng['data']
+
+      # Measure execution time of the underlying engine aggregation method
+      tInit: float = time.perf_counter()
+      resAgg: Dict[str, any] = engineClass.AggregateData(
+        pDf,
+        pGroupByCols,
+        pAggCol,
+        pAggFunc,
+        pNewColName
+      )
+      tEnd: float = time.perf_counter()
+
+      resAgg['time'] = tEnd - tInit
+      resAgg['lib'] = pLibName
+
+      if pPrintResult:
+        BigDataOrchestrator.PrintOperationResult(
+          resAgg,
+          f"Data aggregated by {pGroupByCols} ({pAggFunc} of '{pAggCol}')",
+          pPreviewRows
+        )
+
+      return resAgg
+
+    except Exception as e:
+      CErr.Raise(500,
+        f"BigDataOrchestrator.{sys._getframe(0).f_code.co_name}",
+        "Error orchestrating data aggregation with '%s': %s",
         (pLibName, str(e)),
         e
       )

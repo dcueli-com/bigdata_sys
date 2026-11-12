@@ -77,6 +77,16 @@ FilterOp: TypeAlias = Literal[
   'contains'
 ]
 
+# Supported aggregation functions for DataFrame grouping
+AggFunc: TypeAlias = Literal[
+  'count',
+  'sum',
+  'mean',
+  'min',
+  'max',
+  'median'
+]
+
 # ErrorInfo
 # ---------
 # Inner dictionary structure for standardized error details.
