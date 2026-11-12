@@ -66,6 +66,17 @@ BigDataLib: TypeAlias = Literal[
   'pyspark'
 ]
 
+# Supported comparison operators for DataFrame filtering
+FilterOp: TypeAlias = Literal[
+  '==',
+  '!=',
+  '<',
+  '<=',
+  '>',
+  '>=',
+  'contains'
+]
+
 # ErrorInfo
 # ---------
 # Inner dictionary structure for standardized error details.
