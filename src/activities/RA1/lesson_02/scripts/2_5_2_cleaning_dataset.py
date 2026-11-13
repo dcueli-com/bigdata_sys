@@ -54,11 +54,11 @@ from src.config.globals import *
 
 # Helpers functions
 # -----------------
-import src.helpers.validations as val
+import src.lib.helpers.validations as val
 importlib.reload(val)
-import src.helpers.console as csl
+import src.lib.helpers.console as csl
 importlib.reload(csl)
-import src.helpers.charts as cht
+import src.lib.helpers.charts as cht
 importlib.reload(cht)
 
 

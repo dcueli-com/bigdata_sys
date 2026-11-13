@@ -29,7 +29,7 @@ from src.config.globals import *
 
 # Helpers functions
 # -----------------
-from helpers import console as csl
+from src.lib.helpers import console as csl
   
 # ScrapBooksFromPage
 # ------------------

@@ -48,9 +48,9 @@ from src.config.globals import *
 
 # Helpers functions
 # -----------------
-import src.helpers.validations as val
-import src.helpers.console as csl
-import src.helpers.charts as cht
+import src.lib.helpers.validations as val
+import src.lib.helpers.console as csl
+import src.lib.helpers.charts as cht
 
 # %%
 # CHECK CHANGES ONF IMPORT FILES
