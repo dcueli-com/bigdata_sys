@@ -52,15 +52,18 @@ bigdata_sys/
 |   |   └── RA3/
 |   |   |   └── lesson_04/
 |   |   |       └── data/
-|   |   |       |   ├── 
-|   |   |       |   └──  
+|   |   |       |   └── ml-20m 
+|   |   |       |       └── README.txt
+|   |   |       |
 |   |   |       ├── notebooks/
-|   |   |       |   ├── 
-|   |   |       |   └──  
+|   |   |       |   ├── 4_1_pan_pol_comparison.ipynb
+|   |   |       |   ├── 4_2_pyspark_db.ipynb
+|   |   |       |   └── 4_6_pyspark_mapreduce.ipynb
 |   |   |       |
 |   |   |       └── scripts/
-|   |   |           ├── 
-|   |   |           └──  
+|   |   |           ├── 4_1_pan_pol_comparison.py
+|   |   |           ├── 4_2_pyspark_db.py
+|   |   |           └── 4_6_pyspark_mapreduce.py
 |   |   |
 |   |   ├── reports/ [.gitignore]
 |   |   └── temp/
